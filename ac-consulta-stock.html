@@ -1,0 +1,51 @@
+<div ng-controller="ConsultaStockController as consultaStockCtrl" xmlns="http://www.w3.org/1999/html">
+    <div class="title"><h1 >Consulta de Stock</h1></div>
+
+    <div class="v-spacer"></div>
+
+    <div class="full-width lista-flex" >
+
+        <div>
+            <input type="text" ng-model="consultaStockCtrl.filtro" class="full-width" required/>
+            <label>Filtrar Productos...</label>
+        </div>
+        <select
+                ng-model="consultaStockCtrl.sucursal"
+                ng-options="sucursal.nombre  for sucursal in consultaStockCtrl.sucursales" name=""
+                ng-click="consultaStockCtrl.filtroSucursal()">
+
+        </select>
+        <div>
+            <label class="label--checkbox">
+                <input type="checkbox" class="checkbox" ng-model="consultaStockCtrl.conStock" ng-click="consultaStockCtrl.loadConStock();">
+                Con Stock
+            </label>
+        </div>
+    </div>
+
+
+
+    <table st-table="consultaStockCtrl.stocks" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Proveedor</th>
+            <th>Sucursal</th>
+            <th>Actual</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in consultaStockCtrl.stocks | filter:consultaStockCtrl.filtro">
+
+            <td class="">{{row.nombreProducto}}</td>
+            <td class="">{{row.nombre}} {{row.apellido}}</td>
+            <td class="">{{row.nombreSucursal}}</td>
+            <td class="">{{row.cant_actual}}</td>
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>

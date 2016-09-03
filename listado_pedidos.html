@@ -1,0 +1,57 @@
+<div ng-controller="ListadoPedidosController as listadoPedidosCtrl">
+
+    <div class="title">
+
+        <h1>Listado de Pedidos</h1>
+    </div>
+
+    <div class="v-spacer"></div>
+
+    <div class="buscador">
+
+        <input ng-model="listadoPedidosCtrl.filtro" placeholder="Ingresa tu busqueda" class="buscador" required/>
+        <label>Buscar...</label>
+    </div>
+
+    <div class="full-width">
+        <label class="label--checkbox">
+            <input type="checkbox" class="checkbox" ng-model="listadoPedidosCtrl.soloActivos"
+                   ng-click="listadoPedidosCtrl.loadPedidos();">
+            Mostrando los pedidos que no han sido recibidos
+        </label>
+
+    </div>
+
+    <table st-table="listadoProductosCtrl.productos" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Proveedor</th>
+            <th>Fecha de Pedido</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="pedido in listadoPedidosCtrl.pedidos | filter:listadoPedidosCtrl.filtro"
+            ac-last-list-item>
+
+            <td class="">{{pedido.proveedor_nombre}}</td>
+            <td class="">{{pedido.fecha_pedido}}</td>
+            <td class="">{{pedido.total | currency}}</td>
+            <td class="">
+                <button ng-click="listadoPedidosCtrl.detalle(pedido.pedido_id)"
+                        class="btn-medium btn-visibility"></button>
+                <label>Mostrar Detalle</label>
+            </td>
+        </tr>
+    </table>
+
+    <div class="btn">
+
+        <input type="button" class="relieve-2 btn-add  btn-big" value=""
+               onclick="window.location='#/pedidos/0';"/>
+
+        <label>Nuevo Pedido</label>
+    </div>
+</div>

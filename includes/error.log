@@ -1,0 +1,236 @@
+2016-04-20 20:55:41: exception 'Exception' with message 'Problem preparing query (st.sucursal_id=2) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'st.sucursal_id=2' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(77): MysqliDb->rawQuery('st.sucursal_id=...')
+#2 [internal function]: Stocks::getStocks(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::getStoc...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(749): Stocks::init(Array)
+#5 {main}
+2016-04-20 20:57:02: exception 'Exception' with message 'Problem preparing query ( and st.sucursal_id=2) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and st.sucursal_id=2' at line 1' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(77): MysqliDb->rawQuery(' and st.sucursa...')
+#2 [internal function]: Stocks::getStocks(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::getStoc...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(749): Stocks::init(Array)
+#5 {main}
+2016-04-21 15:45:22: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:00:00: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:02:36: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:03:32: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:07:25: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:08:42: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:09:57: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:11:09: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:17:31: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:27:13: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:31:44: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:32:43: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:34:26: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-21 16:38:08: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(382): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updateStock(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateS...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(747): Stocks::init(Array)
+#6 {main}
+2016-04-22 14:24:32: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(540): MysqliDb->rawQuery('SELECT\r\n    p.p...')
+#4 [internal function]: Stocks::getPedidos(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::getPedi...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(754): Stocks::init(Array)
+#7 {main}
+2016-04-26 00:10:42: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(297): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::updatePedido(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::updateP...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(751): Stocks::init(Array)
+#6 {main}
+2016-04-26 01:25:36: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1753): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(194): MysqliDb->startTransaction()
+#3 [internal function]: Stocks::createPedido(Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::createP...', Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(754): Stocks::init(Array)
+#6 {main}
+2016-04-27 21:48:02: exception 'Exception' with message 'MySQL host is not set' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:253
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(275): MysqliDb->connect()
+#1 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(1479): MysqliDb->mysqli()
+#2 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(703): MysqliDb->rawQuery('select stock_id...')
+#4 [internal function]: Stocks::trasladar(Array)
+#5 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::traslad...', Array)
+#6 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(773): Stocks::init(Array)
+#7 {main}
+2016-04-28 18:24:11: exception 'Exception' with message 'Problem preparing query (SELECT
+    p.pedido_id,
+    p.proveedor_id,
+    p.usuario_id,
+    p.fecha_pedido,
+    p.fecha_entrega,
+    p.total,
+    p.iva,
+    p.sucursal_id,
+    pr.nombre nombreProveedor,
+    pr.apellido apellidoProveedor,
+    u.nombre nombreUsuario,
+    u.apellido apellidoUsuario,
+    pd.pedido_detalle_id,
+    pd.producto_id,
+    pd.cantidad,
+    pd.precio_unidad,
+    pd.precio_total,
+    o.nombre nombreProducto
+FROM
+    pedidos p
+        INNER JOIN
+    usuarios u ON p.usuario_id = u.usuario_id
+        INNER JOIN
+    usuarios pr ON p.proveedor_id = pr.usuario_id
+        LEFT JOIN
+    pedidos_detalles pd ON pd.pedido_id = p.pedido_id
+        INNER JOIN
+    productos o ON o.producto_id = pd.producto_id WHERE p.fecha_entrega = "0000-00-00 00:00:00"
+
+            GROUP BY p.pedido_id,
+    p.proveedor_id,
+    p.usuario_id,
+    p.fecha_pedido,
+    p.fecha_entrega,
+    p.total,
+    p.iva,
+    p.sucursal_id,
+    pr.nombre,
+    pr.apellido,
+    u.nombre,
+    u.apellido,
+    pd.pedido_detalle_id,
+    pd.producto_id,
+    pd.cantidad,
+    pd.precio_unidad,
+    pd.precio_total,
+    o.nombre
+    GROUP BY p.pedido_id desc;) You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GROUP BY p.pedido_id desc' at line 49' in C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php:1482
+Stack trace:
+#0 C:\xampp\htdocs\gestion-bayres\app\includes\MysqliDb.php(382): MysqliDb->_prepareQuery()
+#1 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(562): MysqliDb->rawQuery('SELECT\r\n    p.p...')
+#2 [internal function]: Stocks::getPedidos(Array)
+#3 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(24): call_user_func('Stocks::getPedi...', Array)
+#4 C:\xampp\htdocs\gestion-bayres\app\bower_components\ac-angular-stocks\includes\ac-stocks.php(780): Stocks::init(Array)
+#5 {main}

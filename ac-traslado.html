@@ -1,0 +1,81 @@
+<div class="lista">
+    <div name="trasladarStockForm"
+         style="display: flex; flex-direction: row; width: 100%; flex-wrap: wrap; justify-content: space-around;">
+
+
+        <div class="input">
+            <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
+                    ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+            </select>
+            <label for="origen">Sucursal de Origen</label><br>
+        </div>
+        <div class="input"
+             ng-disabled="$ctrl.origen_id == 0;">
+
+            <ac-autocomplete fields-to-show="'nombre'"
+                             selected-to="$ctrl.producto"
+                             search-fields="'nombre,sku'"
+                             search-function="$ctrl.searchProducto(callback)"
+                             clear='$ctrl.clear'
+                             id="searchProducto" ng-blur="$ctrl.calc_disponible();"></ac-autocomplete>
+            <label for="producto-search">Producto</label>
+
+
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;">
+            <span>Cant.
+                Actual: </span>
+            <span style="width: 1%;"
+                  ng-bind="$ctrl.cantidad_disponible"></span>
+
+        </div>
+        <div class="input">
+            <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
+                   required ng-blur="$ctrl.controlarCantidad();"
+                   ng-click="$ctrl.calc_disponible();">
+            <label for="cantidad">Cantidad</label>
+        </div>
+        <div class="input">
+            <select name="destino" id="destino" ng-model="$ctrl.sucursal_destino"
+                    ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+
+            </select>
+            <label for="destino">Sucursal de Destino</label><br>
+        </div>
+    </div>
+    <div class="botonera">
+        <button ng-click="$ctrl.add();">Agregar Detalle</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Origen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Destino</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in $ctrl.detalles | filter:$ctrl.filtro"
+            ac-last-list-item>
+
+            <td class="">{{row.origen_nombre}}</td>
+            <td class="">{{row.nombre}}</td>
+            <td class="">{{row.cantidad}}</td>
+            <td class="">{{row.destino_nombre}}</td>
+            <td class="">
+                <button ng-click="$ctrl.removeDetalle(row)"
+                        class="btn-medium btn-delete">Quitar
+                </button>
+            </td>
+
+        </tr>
+
+    </table>
+    <div class="botonera">
+        <button ng-click="$ctrl.save();">Confirmar</button>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="title">
+    <h1>Movimiento de Mercaderías</h1></div>
+<div class="v-spacer"></div>
+<div ng-controller="TrasladarStockController  as trasladarStockCtrl" style="width: 100%">
+    <form
+            name="trasladarStockForm" novalidate class="line">
+
+
+        <div class="">
+            <select name="origen" id="origen" ng-model="trasladarStockCtrl.origen_id"
+                    ng-options="sucursal.sucursal_id as sucursal.nombre for sucursal in trasladarStockCtrl.sucursales"
+                    ng-click="trasladarStockCtrl.setSucursalOrigen();">
+            </select>
+            <label for="origen">Sucursal de Origen</label><br>
+        </div>
+        <fieldset
+                ng-disabled="trasladarStockCtrl.origen_id == 0;"
+                style="display: flex;">
+            <input ac-search-panel
+                   id="producto-search"
+                   service="StockService"
+                   exact-match="false"
+                   visible="nombreProducto"
+                   ng-model="trasladarStockCtrl.producto.nombreProducto"
+                   objeto="trasladarStockCtrl.producto"
+                   params="1"
+                   type="text"
+                   func="getDisponibles"
+                   required
+                   autocomplete="off">
+            <label for="producto-search">Producto</label>
+
+
+        </fieldset>
+        <div style="white-space: nowrap;">Cant. Actual: <span style="width: 1%;"
+                                                              ng-bind="trasladarStockCtrl.cantidad_disponible"></span>
+        </div>
+        <div>
+            <input type="number" id="cantidad" name="cantidad" ng-model="trasladarStockCtrl.cantidad" ng-maxlength="45"
+                   required ng-blur="trasladarStockCtrl.controlarCantidad();"
+                   ng-click="trasladarStockCtrl.calc_disponible();"><br>
+            <label for="cantidad">Cantidad</label>
+        </div>
+        <div class="">
+            <select name="destino" id="destino" ng-model="trasladarStockCtrl.destino_id"
+                    ng-options="sucursal.sucursal_id as sucursal.nombre for sucursal in trasladarStockCtrl.sucursales">
+
+            </select>
+            <label for="destino">Sucursal de Destino</label><br>
+        </div>
+
+        <div>
+            <!--<input type="submit"-->
+            <!--ng-disabled="trasladarStockForm.user.$dirty && trasladarStockForm.user.$invalid ||-->
+            <!--trasladarStockForm.email.$dirty && trasladarStockForm.email.$invalid">-->
+            <div class="btn"><input type="submit" ng-click="trasladarStockCtrl.add();"
+                                    ng-disabled="trasladarStockForm.$invalid" class="relieve-2 btn-add btn-medium"
+                                    value="">
+                <label>Agregar Detalle</label>
+            </div>
+
+        </div>
+
+
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Origen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Destino</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in trasladarStockCtrl.detalles | filter:trasladarStockCtrl.filtro"
+            ac-last-list-item>
+
+            <td class="">{{row.origen_nombre}}</td>
+            <td class="">{{row.nombre}}</td>
+            <td class="">{{row.cantidad}}</td>
+            <td class="">{{row.destino_nombre}}</td>
+            <td class="">
+                <div class="btn">
+                    <button ng-click="trasladarStockCtrl.removeDetalle(row)"
+                            class="btn-medium btn-delete"></button>
+                    <label>Mostrar Detalle</label>
+                </div>
+            </td>
+
+        </tr>
+
+    </table>
+    <div>
+        <!--<input type="submit"-->
+        <!--ng-disabled="trasladarStockForm.user.$dirty && trasladarStockForm.user.$invalid ||-->
+        <!--trasladarStockForm.email.$dirty && trasladarStockForm.email.$invalid">-->
+        <div class="btn"><input type="submit" ng-click="trasladarStockCtrl.save();"
+                                ng-disabled="trasladarStockForm.$invalid" class="relieve-2 btn-ok btn-medium"
+                                value="">
+            <label>Confirmar movimiento</label>
+        </div>
+
+    </div>
+</div>

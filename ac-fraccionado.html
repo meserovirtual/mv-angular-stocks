@@ -1,0 +1,55 @@
+<div class="lista">
+
+    <div class="responsive-container">
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: space-around; margin-top: 40px;">
+            <div class="input">
+                <ac-autocomplete fields-to-show="'nombre,precios[0].precio,precios[1].precio,precios[2].precio'"
+                                 selected-to="$ctrl.producto"
+                                 search-fields="'nombre,sku'"
+                                 search-function="$ctrl.searchProductoFraccionable(callback)"
+                                 id="searchProducto"></ac-autocomplete>
+                <label for="tipo_precio">Producto a Fraccionar</label>
+            </div>
+            <div class="input">
+                <ac-autocomplete fields-to-show="'nombre,precios[0].precio,precios[1].precio,precios[2].precio'"
+                                 selected-to="$ctrl.producto"
+                                 search-fields="'nombre,sku'"
+                                 search-function="$ctrl.searchProducto(callback)"
+                                 id="searchProducto"></ac-autocomplete>
+                <label for="tipo_precio">Producto Fraccionable</label>
+            </div>
+            <label for=""><input type="checkbox" ng-model="$ctrl.completo">Completo</label>
+        </div>
+
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: space-around; margin: 40px 0 40px 0;">
+            <div class="input">
+                <input type="number" ng-model="$ctrl.cant_esperada"
+                       id="cant_esperada">
+                <label for="tipo_precio">Cantidad Esperada</label>
+            </div>
+            <div class="input">
+                <input type="number" ng-model="$ctrl.cant_obtenida">
+                <label for="tipo_precio">Cantidad Obtenida</label>
+            </div>
+            <div>
+                <span>Desperdicio</span>
+                <span>{{$ctrl.cant_esperada - $ctrl.cant_obtenida}}</span>
+            </div>
+            <div class="input">
+                <input type="number"
+                       ng-value="($ctrl.producto_a_fraccionar.costo_uni * $ctrl.producto_a_fraccionar.cant_inicial) / $ctrl.cant_esperada"
+                       ng-model="$ctrl.costo_uni">
+                <label for="tipo_precio">Costo Unitario</label>
+            </div>
+            <br>
+
+        </div>
+    </div>
+
+    <div class="botonera">
+        <button ng-click="$ctrl.save();">Guardar</button>
+    </div>
+
+
+</div>
+

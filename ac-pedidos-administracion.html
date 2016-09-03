@@ -1,0 +1,51 @@
+<div class="lista">
+    <div>
+
+        <div class="input">
+            <input type="text" placeholder="Ingresa tu busqueda" ng-model="$ctrl.filtro" class="buscador" required/>
+        </div>
+        <div class="full-width">
+            <label class="label--checkbox">
+                <input type="checkbox" class="checkbox" ng-model="$ctrl.soloActivos"
+                       ng-click="$ctrl.loadPedidos();">
+                Mostrando los pedidos que no han sido recibidos
+            </label>
+
+        </div>
+
+
+    </div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>Proveedor</th>
+            <th>Fecha de Pedido</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in $ctrl.pedidos | filter:$ctrl.filtro"
+            ng-click="$ctrl.pedido=row;$ctrl.detailsOpen = true;">
+
+            <td class="">{{row.proveedor_nombre}}</td>
+            <td class="">{{row.fecha_pedido}}</td>
+            <td class="">{{row.total | currency}}</td>
+        </tr>
+    </table>
+    <div class="botonera">
+        <button ng-click="$ctrl.pedido = {pedidos_detalles:[], total:0}; $ctrl.detailsOpen=true;">Nuevo</button>
+    </div>
+</div>
+<ac-blocker blocker-click="$ctrl.pedido = {}; $ctrl.detailsOpen = false;" visibility="$ctrl.detailsOpen"></ac-blocker>
+<form class="form details" form-id="producto-details"
+      ng-class="{'details-open':$ctrl.detailsOpen}">
+    <div class="detalle-container">
+        <ac-pedidos-detalles pedido="$ctrl.pedido"></ac-pedidos-detalles>
+    </div>
+</form>
+
+
+

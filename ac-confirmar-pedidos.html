@@ -1,0 +1,31 @@
+<div class="lista">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Proveedor</th>
+            <th>Fecha de Pedido</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="row in $ctrl.pedidos | filter:$ctrl.filtro"
+            ng-click="$ctrl.pedido=row;$ctrl.detailsOpen = true;">
+
+            <td class="">{{row.proveedor_nombre}}</td>
+            <td class="">{{row.fecha_pedido}}</td>
+            <td class="">{{row.total | currency}}</td>
+        </tr>
+    </table>
+</div>
+<ac-blocker blocker-click="$ctrl.pedido = {}; $ctrl.detailsOpen = false;" visibility="$ctrl.detailsOpen"></ac-blocker>
+<form class="form details" form-id="pago-proveedores"
+      ng-class="{'details-open':$ctrl.detailsOpen}">
+    <div class="detalle-container">
+        <ac-pago-proveedores pedido="$ctrl.pedido"></ac-pago-proveedores>
+    </div>
+</form>
+
+
+
