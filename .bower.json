@@ -1,13 +1,13 @@
 {
-  "name": "ac-angular-stocks",
-  "homepage": "https://github.com/arielcessario/ac-angular-stocks",
+  "name": "mv-angular-stocks",
+  "homepage": "https://github.com/meserovirtual/mv-angular-stocks",
   "_release": "bfc09bfa6f",
   "_resolution": {
     "type": "branch",
     "branch": "master",
     "commit": "bfc09bfa6f45d9e132ea76e794a9506e511f1129"
   },
-  "_source": "git://github.com/arielcessario/ac-angular-stocks.git",
+  "_source": "git://github.com/meserovirtual/mv-angular-stocks.git",
   "_target": "*",
-  "_originalSource": "ac-angular-stocks"
+  "_originalSource": "mv-angular-stocks"
 }
