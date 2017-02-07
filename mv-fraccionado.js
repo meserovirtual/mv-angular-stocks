@@ -1,16 +1,13 @@
 (function () {
-
     'use strict';
 
+    angular.module('mvFraccionado', [])
+        .component('mvFraccionado', mvFraccionado());
 
-    angular.module('acFraccionado', [])
-
-        .component('acFraccionado', acFraccionado());
-
-    function acFraccionado() {
+    function mvFraccionado() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-fraccionado.html',
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-fraccionado.html',
             controller: FraccionadoController
         }
     }

@@ -1,18 +1,15 @@
 (function () {
-
     'use strict';
 
+    angular.module('mvPagoProveedores', [])
+        .component('mvPagoProveedores', mvPagoProveedores());
 
-    angular.module('acPagoProveedores', [])
-
-        .component('acPagoProveedores', acPagoProveedores());
-
-    function acPagoProveedores() {
+    function mvPagoProveedores() {
         return {
             bindings: {
                 pedido: '='
             },
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-pago-proveedores.html',
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-pago-proveedores.html',
             controller: PagoProveedoresController
         }
     }

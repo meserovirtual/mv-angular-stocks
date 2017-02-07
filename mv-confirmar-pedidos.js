@@ -1,25 +1,22 @@
 (function () {
     'use strict';
 
-    angular.module('acConfirmarPedidos', ['ngRoute'])
+    angular.module('mvConfirmarPedidos', ['ngRoute'])
+        .component('mvConfirmarPedidos', mvConfirmarPedidos());
 
-
-        .component('acConfirmarPedidos', acConfirmarPedidos());
-
-
-    function acConfirmarPedidos() {
+    function mvConfirmarPedidos() {
         return {
             bindings: {
                 searchFunction: '&'
             },
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-confirmar-pedidos.html',
-            controller: AcPedidosController
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-confirmar-pedidos.html',
+            controller: MvPedidosController
         }
     }
 
 
-    AcPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars'];
-    function AcPedidosController(PedidoService, $location, PedidoVars) {
+    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars'];
+    function MvPedidosController(PedidoService, $location, PedidoVars) {
 
         var vm = this;
 

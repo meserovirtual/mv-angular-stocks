@@ -1,25 +1,23 @@
 (function () {
     'use strict';
 
-    angular.module('acPedidosAdministracion', ['ngRoute'])
+    angular.module('mvPedidosAdministracion', ['ngRoute'])
+        .component('mvPedidosAdministracion', mvPedidosAdministracion());
 
 
-        .component('acPedidosAdministracion', acPedidosAdministracion());
-
-
-    function acPedidosAdministracion() {
+    function mvPedidosAdministracion() {
         return {
             bindings: {
                 searchFunction: '&'
             },
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-pedidos-administracion.html',
-            controller: AcPedidosController
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-pedidos-administracion.html',
+            controller: MvPedidosController
         }
     }
 
 
-    AcPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars'];
-    function AcPedidosController(PedidoService, $location, PedidoVars) {
+    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars'];
+    function MvPedidosController(PedidoService, $location, PedidoVars) {
 
         var vm = this;
 

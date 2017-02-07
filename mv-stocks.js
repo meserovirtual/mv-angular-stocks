@@ -5,10 +5,10 @@
     var currentScriptPath = scripts[scripts.length - 1].src;
 
     if (currentScriptPath.length == 0) {
-        currentScriptPath = window.installPath + '/ac-angular-stocks/includes/ac-stocks.php';
+        currentScriptPath = window.installPath + '/mv-angular-stocks/includes/mv-stocks.php';
     }
 
-    angular.module('acStocks', [])
+    angular.module('mvStocks', [])
         .factory('PedidoService', PedidoService)
         .service('PedidoVars', PedidoVars)
         .factory('StockService', StockService)
@@ -30,7 +30,7 @@
         //Variables
         var service = {};
 
-        var url = currentScriptPath.replace('ac-stocks.js', '/includes/ac-stocks.php');
+        var url = currentScriptPath.replace('mv-stocks.js', '/includes/mv-stocks.php');
 
         //Function declarations
         service.get = get;
@@ -501,7 +501,7 @@
         //Variables
         var service = {};
 
-        var url = currentScriptPath.replace('ac-stocks.js', '/includes/ac-stocks.php');
+        var url = currentScriptPath.replace('mv-stocks.js', '/includes/mv-stocks.php');
 
         //Function declarations
         service.get = get;

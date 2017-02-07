@@ -1,20 +1,18 @@
 (function () {
 
-
     'use strict';
     var scripts = document.getElementsByTagName("script");
     var currentScriptPath = scripts[scripts.length - 1].src;
 
-    angular.module('acPedidosDetalles', [])
-        .component('acPedidosDetalles', acPedidosDetalles())
-    ;
+    angular.module('mvPedidosDetalles', [])
+        .component('mvPedidosDetalles', mvPedidosDetalles());
 
-    function acPedidosDetalles() {
+    function mvPedidosDetalles() {
         return {
             bindings: {
                 pedido: '='
             },
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-pedidos-detalles.html',
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-pedidos-detalles.html',
             controller: PedidosController
         }
     }

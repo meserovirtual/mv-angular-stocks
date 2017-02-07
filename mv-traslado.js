@@ -3,20 +3,20 @@
     'use strict';
 
 
-    angular.module('acTraslado', [])
-        .component('acTraslado', acTraslado());
+    angular.module('mvTraslado', [])
+        .component('mvTraslado', mvTraslado());
 
-    function acTraslado() {
+    function mvTraslado() {
         return {
             bindings: {},
-            templateUrl: window.installPath + '/ac-angular-stocks/ac-traslado.html',
-            controller: acTrasladoController
+            templateUrl: window.installPath + '/mv-angular-stocks/mv-traslado.html',
+            controller: mvTrasladoController
         }
     }
 
-    acTrasladoController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'MvUtilsGlobals',
+    mvTrasladoController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'MvUtilsGlobals',
         'ProductVars', 'StockService', 'StockVars', 'MvUtils'];
-    function acTrasladoController($rootScope, $location, ProductService, SucursalesService, MvUtilsGlobals,
+    function mvTrasladoController($rootScope, $location, ProductService, SucursalesService, MvUtilsGlobals,
                                   ProductVars, StockService, StockVars, MvUtils) {
         var vm = this;
         vm.producto = {};
