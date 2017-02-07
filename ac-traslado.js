@@ -14,10 +14,10 @@
         }
     }
 
-    acTrasladoController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'AcUtilsGlobals',
-        'ProductVars', 'StockService', 'StockVars', 'AcUtils'];
-    function acTrasladoController($rootScope, $location, ProductService, SucursalesService, AcUtilsGlobals,
-                                  ProductVars, StockService, StockVars, AcUtils) {
+    acTrasladoController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'MvUtilsGlobals',
+        'ProductVars', 'StockService', 'StockVars', 'MvUtils'];
+    function acTrasladoController($rootScope, $location, ProductService, SucursalesService, MvUtilsGlobals,
+                                  ProductVars, StockService, StockVars, MvUtils) {
         var vm = this;
         vm.producto = {};
         vm.sucursales = [];
@@ -49,7 +49,7 @@
 
         function controlarCantidad() {
             if (vm.cantidad > vm.cantidad_disponible) {
-                AcUtils.showMessage('error', 'La cantidad seleccionada es mayor a la disponible');
+                MvUtils.showMessage('error', 'La cantidad seleccionada es mayor a la disponible');
                 vm.cantidad = vm.cantidad_disponible;
             }
         }
@@ -76,23 +76,23 @@
 
         function add() {
             if (vm.sucursal_origen.sucursal_id == undefined) {
-                AcUtils.showMessage('error', 'Debe seleccionar una sucursal de origen');
+                MvUtils.showMessage('error', 'Debe seleccionar una sucursal de origen');
                 return;
             }
             if (vm.sucursal_destino.sucursal_id == undefined) {
-                AcUtils.showMessage('error', 'Debe seleccionar una sucursal de destino');
+                MvUtils.showMessage('error', 'Debe seleccionar una sucursal de destino');
                 return;
             }
             if (vm.producto.producto_id == undefined) {
-                AcUtils.showMessage('error', 'Debe seleccionar un producto');
+                MvUtils.showMessage('error', 'Debe seleccionar un producto');
                 return;
             }
             if (vm.cantidad == undefined || vm.cantidad == 0) {
-                AcUtils.showMessage('error', 'Debe ingresar una cantidad');
+                MvUtils.showMessage('error', 'Debe ingresar una cantidad');
                 return;
             }
             if (vm.sucursal_destino == vm.sucursal_origen) {
-                AcUtils.showMessage('error', 'Las sucursales no pueden se las mismas');
+                MvUtils.showMessage('error', 'Las sucursales no pueden se las mismas');
                 return;
             }
 
@@ -130,7 +130,7 @@
             StockService.trasladar(vm.detalles).then(function (data) {
                 ProductVars.clearCache = true;
                 StockService.get();
-                AcUtils.showMessage('success', 'Traslado realizado con éxito');
+                MvUtils.showMessage('success', 'Traslado realizado con éxito');
                 $location.path('/caja/cobros');
             });
 
@@ -140,9 +140,9 @@
         vm.searchProducto = searchProducto;
 
         function searchProducto(callback) {
-            AcUtilsGlobals.sucursal_id_search = vm.sucursal_origen.sucursal_id;
+            MvUtilsGlobals.sucursal_id_search = vm.sucursal_origen.sucursal_id;
             StockService.get().then(callback).then(function () {
-                AcUtilsGlobals.sucursal_id_search = 0;
+                MvUtilsGlobals.sucursal_id_search = 0;
             });
         }
 

@@ -90,7 +90,7 @@
             //console.log(items);
 
             //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback)
-            MovimientosService.armarMovimiento('016', '', AcUtilsGlobals.sucursal_id, AcUtilsGlobals.pos_id, vm.forma_pago, '', (vm.producto_a_fraccionar.costo_uni * vm.producto_a_fraccionar.cant_inicial), '', 'Fraccionado de producto', items, vm.producto_a_fraccionar.proveedor_id, 1, 'Fraccionado de producto', function (data) {
+            MovimientosService.armarMovimiento('016', '', MvUtilsGlobals.sucursal_id, MvUtilsGlobals.pos_id, vm.forma_pago, '', (vm.producto_a_fraccionar.costo_uni * vm.producto_a_fraccionar.cant_inicial), '', 'Fraccionado de producto', items, vm.producto_a_fraccionar.proveedor_id, 1, 'Fraccionado de producto', function (data) {
                 StockService.create(detalles, function (data) {
 
                     if (!vm.completo) {

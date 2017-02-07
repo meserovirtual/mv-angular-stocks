@@ -21,9 +21,9 @@
 
 
     PedidosController.$inject = ['$routeParams', 'ProductService', 'PedidoService', '$location', '$window',
-        'UserService', 'SucursalesService', 'ProductVars', 'PedidoVars', 'AcUtils', '$scope'];
+        'UserService', 'SucursalesService', 'ProductVars', 'PedidoVars', 'MvUtils', '$scope'];
     function PedidosController($routeParams, ProductService, PedidoService, $location, $window,
-                               UserService, SucursalesService, ProductVars, PedidoVars, AcUtils, $scope) {
+                               UserService, SucursalesService, ProductVars, PedidoVars, MvUtils, $scope) {
 
         var vm = this;
         vm.isUpdate = false;
@@ -160,10 +160,10 @@
             PedidoService.remove(vm.id,
                 function (data) {
                     if (data > 0) {
-                        AcUtils.showMessage('success', 'Pedido borrado con éxito.');
+                        MvUtils.showMessage('success', 'Pedido borrado con éxito.');
                         $location.path('/caja/cobros');
                     } else {
-                        AcUtils.showMessage('success', 'Error al borrar el pedido.');
+                        MvUtils.showMessage('success', 'Error al borrar el pedido.');
                     }
                 });
 
@@ -179,7 +179,7 @@
         function agregarDetalle() {
             if (vm.producto.producto_id === undefined || vm.producto.producto_id == -1
                 || vm.producto.producto_id == '') {
-                AcUtils.showMessage('error', 'Debe seleccionar un producto');
+                MvUtils.showMessage('error', 'Debe seleccionar un producto');
                 return;
             }
 
@@ -238,11 +238,11 @@
                     function (data) {
 
                         if (data != -1) {
-                            AcUtils.showMessage('success', 'Pedido modificado con �xito.');
+                            MvUtils.showMessage('success', 'Pedido modificado con �xito.');
                             $location.path('/caja/cobros');
 
                         } else {
-                            AcUtils.showMessage('success', 'Error al modificar el pedido.');
+                            MvUtils.showMessage('success', 'Error al modificar el pedido.');
                         }
                         ProductVars.clearCache = true;
                         ProductService.get(function (data) {
@@ -253,10 +253,10 @@
                     function (data) {
 
                         if (data !== -1) {
-                            AcUtils.showMessage('success', 'Pedido generado con éxito.');
+                            MvUtils.showMessage('success', 'Pedido generado con éxito.');
                             $location.path('/caja/cobros');
                         } else {
-                            AcUtils.showMessage('success', 'Error al generar el pedido.');
+                            MvUtils.showMessage('success', 'Error al generar el pedido.');
                         }
                         ProductVars.clearCache = true;
                         ProductService.get(function (data) {
@@ -336,7 +336,7 @@
                 PedidoService.create(vm.nuevoPedido, function (data) {
                     //console.log(data);
                     PedidoService.update(vm.pedido, function (data) {
-                        AcUtils.showMessage('success', 'Pedido creado con éxito');
+                        MvUtils.showMessage('success', 'Pedido creado con éxito');
                         $location.path('/caja/cobros');
                         //console.log(data);
                     })
@@ -354,7 +354,7 @@
 
                     PedidoService.update(data[0], function (data) {
                         PedidoService.update(vm.pedido, function (data) {
-                            AcUtils.showMessage('success', 'Pedido modificado con éxito');
+                            MvUtils.showMessage('success', 'Pedido modificado con éxito');
                             $location.path('/caja/cobros');
                             //console.log(data);
                         })
@@ -376,7 +376,7 @@
         function moverFaltantes() {
 
             if (vm.faltantes.length < 1) {
-                AcUtils.showMessage('error', 'No hay faltantes seleccionados');
+                MvUtils.showMessage('error', 'No hay faltantes seleccionados');
                 return;
             }
 

@@ -16,9 +16,9 @@
         .controller('TrasladarStockController', TrasladarStockController)
         .factory('TrasladarStockService', TrasladarStockService);
 
-    TrasladarStockController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'TrasladarStockService', 'AcUtilsGlobals',
+    TrasladarStockController.$inject = ["$rootScope", "$location", 'ProductService', 'SucursalesService', 'TrasladarStockService', 'MvUtilsGlobals',
         'toastr', 'ProductVars', 'StockService', 'StockVars'];
-    function TrasladarStockController($rootScope, $location, ProductService, SucursalesService, TrasladarStockService, AcUtilsGlobals,
+    function TrasladarStockController($rootScope, $location, ProductService, SucursalesService, TrasladarStockService, MvUtilsGlobals,
                                       toastr, ProductVars, StockService, StockVars) {
         var vm = this;
         vm.producto = {};
@@ -50,12 +50,12 @@
         }
 
         function setSucursalOrigen() {
-            AcUtilsGlobals.sucursal_auxiliar_id = vm.origen_id;
-            //console.log(AcUtilsGlobals.sucursal_auxiliar_id);
+            MvUtilsGlobals.sucursal_auxiliar_id = vm.origen_id;
+            //console.log(MvUtilsGlobals.sucursal_auxiliar_id);
         }
 
         // Esto es un listener de la directiva search-panel
-        AcUtilsGlobals.listenPanel(calc_disponible);
+        MvUtilsGlobals.listenPanel(calc_disponible);
 
         function calc_disponible() {
             //console.log(vm.producto);
@@ -64,7 +64,7 @@
             }
             vm.cantidad_disponible = 0;
             for (var i = 0; i < vm.producto.stock.length; i++) {
-                if (vm.producto.stock[i].sucursal_id == AcUtilsGlobals.sucursal_auxiliar_id) {
+                if (vm.producto.stock[i].sucursal_id == MvUtilsGlobals.sucursal_auxiliar_id) {
                     vm.cantidad_disponible = vm.producto.stock[i].cant_actual + vm.cantidad_disponible;
                 }
 
@@ -106,7 +106,7 @@
         }
 
         function save() {
-            AcUtilsGlobals.isWaiting = true;
+            MvUtilsGlobals.isWaiting = true;
             $rootScope.$broadcast('IsWaiting');
             //if (vm.destino_id == vm.origen_id) {
             //    toastr.error('La sucursal de origen y destino no pueden ser las mismas');
@@ -135,7 +135,7 @@
             //vm.destino_id = 0;
             //vm.cantidad_disponible = 0;
             $location.path('/consulta_stock');
-            AcUtilsGlobals.isWaiting = false;
+            MvUtilsGlobals.isWaiting = false;
             $rootScope.$broadcast('IsWaiting');
 
             //TrasladarStockService.save()

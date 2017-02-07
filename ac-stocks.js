@@ -16,17 +16,17 @@
     ;
 
 
-    PedidoService.$inject = ['$http', 'PedidoVars', '$cacheFactory', 'AcUtils', 'AcUtilsGlobals', 'ErrorHandler'];
+    PedidoService.$inject = ['$http', 'PedidoVars', '$cacheFactory', 'MvUtils', 'MvUtilsGlobals', 'ErrorHandler'];
     /**
      * @description Administrador de pedidos
      * @param $http
      * @param PedidoVars
      * @param $cacheFactory
-     * @param AcUtils
+     * @param MvUtils
      * @returns {{}}
      * @constructor
      */
-    function PedidoService($http, PedidoVars, $cacheFactory, AcUtils, AcUtilsGlobals, ErrorHandler) {
+    function PedidoService($http, PedidoVars, $cacheFactory, MvUtils, MvUtilsGlobals, ErrorHandler) {
         //Variables
         var service = {};
 
@@ -282,7 +282,7 @@
          */
         function getByParams(params, values, exact_match, callback) {
             get(function (data) {
-                AcUtils.getByParams(params, values, exact_match, data, callback);
+                MvUtils.getByParams(params, values, exact_match, data, callback);
             })
         }
 
@@ -358,7 +358,7 @@
          */
         function confirmarPedido(pedido) {
             pedido.fecha_entrega = 'now';
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             return $http.post(url,
                 {
                     'function': 'updatePedido',
@@ -366,11 +366,11 @@
                 })
                 .then(function (response) {
                     PedidoVars.clearCache = true;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     return response.data;
                 })
                 .catch(function (response) {
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     ErrorHandler(response.data);
                 });
         }
@@ -496,8 +496,8 @@
     }
 
 
-    StockService.$inject = ['$http', 'StockVars', '$cacheFactory', 'AcUtils', 'ErrorHandler', 'AcUtilsGlobals', 'UserService', '$q'];
-    function StockService($http, StockVars, $cacheFactory, AcUtils, ErrorHandler, AcUtilsGlobals, UserService, $q) {
+    StockService.$inject = ['$http', 'StockVars', '$cacheFactory', 'MvUtils', 'ErrorHandler', 'MvUtilsGlobals', 'UserService', '$q'];
+    function StockService($http, StockVars, $cacheFactory, MvUtils, ErrorHandler, MvUtilsGlobals, UserService, $q) {
         //Variables
         var service = {};
 
@@ -654,7 +654,7 @@
         function trasladar(detalles) {
 
 
-            AcUtilsGlobals.startWaiting();
+            MvUtilsGlobals.startWaiting();
             return $http.post(url,
                 {
                     function: 'trasladar',
@@ -662,13 +662,13 @@
                 })
                 .then(function (response) {
                     StockVars.clearCache = true;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     return response.data;
                 })
                 .catch(function (response) {
 
                     ErrorHandler(response.data);
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                 })
         }
 
@@ -678,8 +678,8 @@
          * @returns {*}
          */
         function get() {
-            AcUtilsGlobals.startWaiting();
-            var sucursal = (AcUtilsGlobals.sucursal_id_search != undefined && AcUtilsGlobals.sucursal_id_search != 0) ? AcUtilsGlobals.sucursal_id_search : UserService.getFromToken().data.sucursal_id;
+            MvUtilsGlobals.startWaiting();
+            var sucursal = (MvUtilsGlobals.sucursal_id_search != undefined && MvUtilsGlobals.sucursal_id_search != 0) ? MvUtilsGlobals.sucursal_id_search : UserService.getFromToken().data.sucursal_id;
             var urlGet = url + '?function=getStocks&sucursal_id=' + sucursal;
             var $httpDefaultCache = $cacheFactory.get('$http');
             var cachedData = [];
@@ -694,8 +694,8 @@
                     var deferred = $q.defer();
                     cachedData = $httpDefaultCache.get(urlGet);
                     deferred.resolve(cachedData);
-                    AcUtilsGlobals.stocks = cachedData;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stocks = cachedData;
+                    MvUtilsGlobals.stopWaiting();
                     return deferred.promise;
                 }
             }
@@ -747,14 +747,14 @@
                     $httpDefaultCache.put(urlGet, response.data);
                     StockVars.clearCache = false;
                     StockVars.paginas = (response.data.length % StockVars.paginacion == 0) ? parseInt(response.data.length / StockVars.paginacion) : parseInt(response.data.length / StockVars.paginacion) + 1;
-                    AcUtilsGlobals.stocks = response.data;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stocks = response.data;
+                    MvUtilsGlobals.stopWaiting();
                     console.log(response.data);
                     return response.data;
                 })
                 .catch(function (response) {
                     StockVars.clearCache = false;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     ErrorHandler(response);
                 })
         }
@@ -768,7 +768,7 @@
          */
         function getByParams(params, values, exact_match) {
             return get().then(function (data) {
-                return AcUtils.getByParams(params, values, exact_match, data);
+                return MvUtils.getByParams(params, values, exact_match, data);
             }).then(function (data) {
                 return data;
             });
@@ -781,7 +781,7 @@
                 })
                 .catch(function (response) {
                     StockVars.clearCache = false;
-                    AcUtilsGlobals.stopWaiting();
+                    MvUtilsGlobals.stopWaiting();
                     ErrorHandler(response);
                 })
 

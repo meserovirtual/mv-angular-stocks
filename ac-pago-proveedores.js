@@ -18,9 +18,9 @@
     }
 
     PagoProveedoresController.$inject = ["$scope", "$routeParams", "$location", "MovimientosService",
-        'PedidoService', 'StockService', 'AcUtilsGlobals', 'AcUtils', 'UserService'];
+        'PedidoService', 'StockService', 'MvUtilsGlobals', 'MvUtils', 'UserService'];
     function PagoProveedoresController($scope, $routeParams, $location, MovimientosService,
-                                       PedidoService, StockService, AcUtilsGlobals, AcUtils, UserService) {
+                                       PedidoService, StockService, MvUtilsGlobals, MvUtils, UserService) {
         var vm = this;
         vm.comentario = '';
         vm.subtipo = '00';
@@ -46,7 +46,7 @@
             var detalle = {};
 
             if (vm.pedido.total != vm.parcial_01 + vm.parcial_02 + vm.parcial_03 + vm.proveedores) {
-                AcUtils.showMessage('error', 'El monto ingresado debe ser igual al total a pagar');
+                MvUtils.showMessage('error', 'El monto ingresado debe ser igual al total a pagar');
                 return;
             }
 
@@ -86,13 +86,13 @@
                             vm.forma_pago = '01';
                             StockService.create(detalles).then(function (data) {
                                 $location.path('/caja/cobros');
-                                AcUtils.showMessage('success', 'Pedido Confirmado');
+                                MvUtils.showMessage('success', 'Pedido Confirmado');
                             });
                         });
                     } else {
                         //toastr.success('Pedido confirmado con éxito.');
                         $location.path('/caja/cobros');
-                        AcUtils.showMessage('error', 'Error al confirmar el pedido.');
+                        MvUtils.showMessage('error', 'Error al confirmar el pedido.');
                     }
                 });
         }
