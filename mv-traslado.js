@@ -20,6 +20,7 @@
                                   ProductVars, StockService, StockVars, MvUtils) {
         var vm = this;
         vm.producto = {};
+        //vm.sucursal = {};
         vm.sucursales = [];
         vm.sucursal_origen = {};
         vm.sucursal_destino = {};
@@ -40,6 +41,8 @@
 
         SucursalesService.get().then(function (data) {
             vm.sucursales = data;
+            vm.sucursal_origen = data[0];
+            vm.sucursal_destino = data[1];
         });
 
 
@@ -75,6 +78,9 @@
         }
 
         function add() {
+            vm.producto.producto_id = 1;
+            vm.cantidad = 2;
+
             if (vm.sucursal_origen.sucursal_id == undefined) {
                 MvUtils.showMessage('error', 'Debe seleccionar una sucursal de origen');
                 return;
@@ -126,7 +132,7 @@
         }
 
         function save() {
-
+            console.log('save');
             StockService.trasladar(vm.detalles).then(function (data) {
                 ProductVars.clearCache = true;
                 StockService.get();

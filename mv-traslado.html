@@ -1,83 +1,108 @@
 <div class="container container-bgk container-padding">
     <h1 class="secciones">Depósitos</h1>
     <form class="" name="trasladarStockForm" form-id="mv-traslados">
-        <div class="form-flex">
-            <div class="input">
-                <label for="origen">Sucursal de Origen</label>
-                <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
-                        ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
-                </select>
+        <div class="form-container-wrapper">
+            <div class="form-flex">
+                <div class="input">
+                    <label for="origen">Sucursal de Origen</label>
+                    <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
+                            ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+                    </select>
+                </div>
+
+                <div class="input">
+                    <label>Sucursal de Destino</label>
+                    <select name="destino" id="destino" ng-model="$ctrl.sucursal_destino"
+                            ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+
+                    </select>
+                </div>
             </div>
 
-            <div class="input" ng-disabled="$ctrl.origen_id == 0;">
-                <label>Producto</label>
-                <mv-autocomplete fields-to-show="'nombre'"
-                                 selected-to="$ctrl.producto"
-                                 search-fields="'nombre,sku'"
-                                 search-function="$ctrl.searchProducto(callback)"
-                                 clear='$ctrl.clear'
-                                 id="searchProducto"
-                                 ng-blur="$ctrl.calc_disponible();"></mv-autocomplete>
+            <div class="form-flex">
+                <div class="input" ng-disabled="$ctrl.origen_id == 0;">
+                    <label>Producto</label>
+                    <mv-autocomplete fields-to-show="'nombre'"
+                                     selected-to="$ctrl.producto"
+                                     search-fields="'nombre,sku'"
+                                     search-function="$ctrl.searchProducto(callback)"
+                                     clear='$ctrl.clear'
+                                     id="searchProducto"
+                                     ng-blur="$ctrl.calc_disponible();"></mv-autocomplete>
+                </div>
+
+                <div class="input">
+                    <label>Cant. Actual: </label>
+                    <input type="text" ng-model="$ctrl.cantidad_disponible" readonly>
+                </div>
             </div>
 
-            <div class="input">
-                <label>Cant. Actual: </label>
-                <input type="text" ng-model="$ctrl.cantidad_disponible" readonly>
-            </div>
+            <div class="form-flex">
+                <div class="input">
+                    <label>Cantidad</label>
+                    <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
+                           mv-validator is-required="Debe ingresar una cantidad" ng-blur="$ctrl.controlarCantidad();"
+                           ng-click="$ctrl.calc_disponible();">
+                </div>
 
-            <div class="input">
-                <label>Cantidad</label>
-                <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
-                       mv-validator is-required="Debe ingresar una cantidad" ng-blur="$ctrl.controlarCantidad();"
-                       ng-click="$ctrl.calc_disponible();">
-            </div>
-
-            <div class="input">
-                <label>Sucursal de Destino</label>
-                <select name="destino" id="destino" ng-model="$ctrl.sucursal_destino"
-                        ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
-
-                </select>
-            </div>
-
-            <div class="botonera">
-                <button class="boton-ok" mv-validator ng-click="$ctrl.add();">
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                </button>
+                <div class="botonera">
+                    <button class="boton-ok" mv-validator ng-click="$ctrl.add();">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </form>
 
-    <table class="table table-striped">
+    <table>
         <thead>
         <tr>
             <th>Origen</th>
             <th>Producto</th>
             <th>Cantidad</th>
             <th>Destino</th>
-            <th></th>
+            <th>Acción</th>
         </tr>
         </thead>
         <tbody>
-
-        <tr ng-repeat="row in $ctrl.detalles | filter:$ctrl.filtro"
-            ac-last-list-item>
-
+        <tr ng-repeat="row in $ctrl.detalles | filter:$ctrl.filtro">
             <td class="">{{row.origen_nombre}}</td>
             <td class="">{{row.nombre}}</td>
             <td class="">{{row.cantidad}}</td>
             <td class="">{{row.destino_nombre}}</td>
             <td class="">
-                <button ng-click="$ctrl.removeDetalle(row)"
-                        class="btn-medium btn-delete">Quitar
+                <button type="button" class="boton-eliminar" ng-click="$ctrl.removeDetalle(row)" title="Quitar">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
             </td>
-
         </tr>
-
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <div class="table-td">
+                        <span>
+                            <button class="paginacion-primera" ng-click="$ctrl.first();"></button>
+                            <button class="paginacion-ant" ng-click="$ctrl.prev();"></button>
+                        </span>
+                        <span class="paginacion-paginas">
+                            <span>{{'PAGE' | xlat}} {{$ctrl.pagina}} {{'OF' | xlat}} {{$ctrl.paginas}}</span>
+                        </span>
+                        <span class="paginacion-go-to">{{'GO_TO' | xlat}}
+                            <input type="number" ng-model="$ctrl.pagina" ng-keyup="$ctrl.goToPagina();"
+                                   class="input-paginacion">
+                        </span>
+                        <span>
+                            <button class="paginacion-sig" ng-click="$ctrl.next();"></button>
+                            <button class="paginacion-ultima"ng-click="$ctrl.last();"></button>
+                        </span>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
     </table>
     <div class="botonera">
-        <button class="boton-ok" mv-validator ng-click="$ctrl.save();">
+        <button class="boton-ok" ng-click="$ctrl.save();">
             <i class="fa fa-check" aria-hidden="true"></i>
         </button>
     </div>
