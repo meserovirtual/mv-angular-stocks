@@ -71,7 +71,7 @@ class Stocks extends Main
     p.producto_id,
     p.nombre,
     p.sku,
-    p.producto_tipo,
+    p.producto_tipo_id,
     p.iva,
     p.pto_repo,
     pr.precio_id,
@@ -93,7 +93,7 @@ FROM
         LEFT JOIN
     productos_kits ki ON ki.parent_id = p.producto_id
 WHERE
-(((p.producto_tipo = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo = 3) OR (p.producto_tipo = 2);';
+(((p.producto_tipo_id = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo_id = 3) OR (p.producto_tipo_id = 2);';
 
 
         $results = $db->rawQuery($SQL);
@@ -107,7 +107,7 @@ WHERE
                     'producto_id' => $row["producto_id"],
                     'nombre' => $row["nombre"],
                     'sku' => $row["sku"],
-                    'producto_tipo' => $row["producto_tipo"],
+                    'producto_tipo_id' => $row["producto_tipo_id"],
                     'iva' => $row["iva"],
                     'pto_repo' => $row["pto_repo"],
                     'stocks' => array(),

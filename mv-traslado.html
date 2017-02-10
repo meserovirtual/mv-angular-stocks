@@ -1,51 +1,52 @@
-<div class="lista">
-    <div name="trasladarStockForm"
-         style="display: flex; flex-direction: row; width: 100%; flex-wrap: wrap; justify-content: space-around;">
+<div class="container container-bgk container-padding">
+    <h1 class="secciones">Depósitos</h1>
+    <form class="" name="trasladarStockForm" form-id="mv-traslados">
+        <div class="form-flex">
+            <div class="input">
+                <label for="origen">Sucursal de Origen</label>
+                <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
+                        ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+                </select>
+            </div>
 
+            <div class="input" ng-disabled="$ctrl.origen_id == 0;">
+                <label>Producto</label>
+                <mv-autocomplete fields-to-show="'nombre'"
+                                 selected-to="$ctrl.producto"
+                                 search-fields="'nombre,sku'"
+                                 search-function="$ctrl.searchProducto(callback)"
+                                 clear='$ctrl.clear'
+                                 id="searchProducto"
+                                 ng-blur="$ctrl.calc_disponible();"></mv-autocomplete>
+            </div>
 
-        <div class="input">
-            <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
-                    ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
-            </select>
-            <label for="origen">Sucursal de Origen</label><br>
+            <div class="input">
+                <label>Cant. Actual: </label>
+                <input type="text" ng-model="$ctrl.cantidad_disponible" readonly>
+            </div>
+
+            <div class="input">
+                <label>Cantidad</label>
+                <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
+                       mv-validator is-required="Debe ingresar una cantidad" ng-blur="$ctrl.controlarCantidad();"
+                       ng-click="$ctrl.calc_disponible();">
+            </div>
+
+            <div class="input">
+                <label>Sucursal de Destino</label>
+                <select name="destino" id="destino" ng-model="$ctrl.sucursal_destino"
+                        ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
+
+                </select>
+            </div>
+
+            <div class="botonera">
+                <button class="boton-ok" mv-validator ng-click="$ctrl.add();">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
-        <div class="input"
-             ng-disabled="$ctrl.origen_id == 0;">
-
-            <ac-autocomplete fields-to-show="'nombre'"
-                             selected-to="$ctrl.producto"
-                             search-fields="'nombre,sku'"
-                             search-function="$ctrl.searchProducto(callback)"
-                             clear='$ctrl.clear'
-                             id="searchProducto" ng-blur="$ctrl.calc_disponible();"></ac-autocomplete>
-            <label for="producto-search">Producto</label>
-
-
-        </div>
-        <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;">
-            <span>Cant.
-                Actual: </span>
-            <span style="width: 1%;"
-                  ng-bind="$ctrl.cantidad_disponible"></span>
-
-        </div>
-        <div class="input">
-            <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
-                   required ng-blur="$ctrl.controlarCantidad();"
-                   ng-click="$ctrl.calc_disponible();">
-            <label for="cantidad">Cantidad</label>
-        </div>
-        <div class="input">
-            <select name="destino" id="destino" ng-model="$ctrl.sucursal_destino"
-                    ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales">
-
-            </select>
-            <label for="destino">Sucursal de Destino</label><br>
-        </div>
-    </div>
-    <div class="botonera">
-        <button ng-click="$ctrl.add();">Agregar Detalle</button>
-    </div>
+    </form>
 
     <table class="table table-striped">
         <thead>
@@ -76,6 +77,9 @@
 
     </table>
     <div class="botonera">
-        <button ng-click="$ctrl.save();">Confirmar</button>
+        <button class="boton-ok" mv-validator ng-click="$ctrl.save();">
+            <i class="fa fa-check" aria-hidden="true"></i>
+        </button>
     </div>
 </div>
+
