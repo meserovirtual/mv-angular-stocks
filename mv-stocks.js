@@ -246,30 +246,29 @@
             var $httpDefaultCache = $cacheFactory.get('$http');
             var cachedData = [];
 
-
             // Verifica si existe el cache de pedidos
             if ($httpDefaultCache.get(urlGet) != undefined) {
                 if (PedidoVars.clearCache) {
                     $httpDefaultCache.remove(urlGet);
                 }
                 else {
+                    var deferred = $q.defer();
                     cachedData = $httpDefaultCache.get(urlGet);
-                    callback(cachedData);
-                    return;
+                    deferred.resolve(cachedData);
+                    return deferred.promise;
                 }
             }
 
-
             return $http.get(urlGet, {cache: true})
-                .success(function (data) {
-                    $httpDefaultCache.put(urlGet, data);
+                .then(function (response) {
+                    $httpDefaultCache.put(urlGet, response.data);
                     PedidoVars.clearCache = false;
-                    PedidoVars.paginas = (data.length % PedidoVars.paginacion == 0) ? parseInt(data.length / PedidoVars.paginacion) : parseInt(data.length / PedidoVars.paginacion) + 1;
-                    callback(data);
+                    PedidoVars.paginas = (response.data.length % PedidoVars.paginacion == 0) ? parseInt(response.data.length / PedidoVars.paginacion) : parseInt(response.data.length / PedidoVars.paginacion) + 1;
+                    return response.data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (response) {
                     PedidoVars.clearCache = false;
+                    ErrorHandler(response);
                 })
         }
 
