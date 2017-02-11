@@ -47,6 +47,7 @@
 
 
         document.getElementById('searchProducto').getElementsByTagName('input')[0].addEventListener('blur', function (event) {
+            console.log('busco');
             calc_disponible();
         });
 
@@ -78,8 +79,6 @@
         }
 
         function add() {
-            vm.producto.producto_id = 1;
-            vm.cantidad = 2;
 
             if (vm.sucursal_origen.sucursal_id == undefined) {
                 MvUtils.showMessage('error', 'Debe seleccionar una sucursal de origen');
@@ -150,6 +149,7 @@
             StockService.get().then(callback).then(function () {
                 MvUtilsGlobals.sucursal_id_search = 0;
             });
+
         }
 
 
