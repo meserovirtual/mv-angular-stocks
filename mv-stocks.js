@@ -16,7 +16,7 @@
     ;
 
 
-    PedidoService.$inject = ['$http', 'PedidoVars', '$cacheFactory', 'MvUtils', 'MvUtilsGlobals', 'ErrorHandler'];
+    PedidoService.$inject = ['$http', 'PedidoVars', '$cacheFactory', 'MvUtils', 'MvUtilsGlobals', 'ErrorHandler', '$q'];
     /**
      * @description Administrador de pedidos
      * @param $http
@@ -26,7 +26,7 @@
      * @returns {{}}
      * @constructor
      */
-    function PedidoService($http, PedidoVars, $cacheFactory, MvUtils, MvUtilsGlobals, ErrorHandler) {
+    function PedidoService($http, PedidoVars, $cacheFactory, MvUtils, MvUtilsGlobals, ErrorHandler, $q) {
         //Variables
         var service = {};
 
