@@ -2,7 +2,7 @@
     <h1 class="secciones">Depósitos</h1>
     <form class="" name="trasladarStockForm" form-id="mv-traslados">
         <div class="form-container-wrapper">
-            <div class="form-flex">
+            <div class="form-flex-between">
                 <div class="input">
                     <label for="origen">Sucursal de Origen</label>
                     <select name="origen" id="origen" ng-model="$ctrl.sucursal_origen"
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="form-flex">
+            <div class="form-flex-between">
                 <div class="input" ng-disabled="$ctrl.origen_id == 0;">
                     <label>Producto</label>
                     <mv-autocomplete fields-to-show="'nombre'"
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="form-flex">
+            <div class="form-flex-between">
                 <div class="input">
                     <label>Cantidad</label>
                     <input type="number" id="cantidad" name="cantidad" ng-model="$ctrl.cantidad" ng-maxlength="45"
