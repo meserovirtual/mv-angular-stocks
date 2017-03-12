@@ -127,19 +127,26 @@
 
             vm.detalles.push(vm.detalle);
             vm.detalle = {};
+            vm.producto = {};
+            vm.cantidad_disponible = '';
+            vm.cantidad = '';
 
         }
 
         function save() {
-            console.log('save');
+            if(vm.detalles == undefined || vm.detalles.length == 0) {
+                MvUtils.showMessage('error', 'No hay productos para realizar el traslado');
+                return;
+            }
+
             StockService.trasladar(vm.detalles).then(function (data) {
                 ProductVars.clearCache = true;
                 StockService.get();
                 MvUtils.showMessage('success', 'Traslado realizado con éxito');
                 $location.path('/caja/cobros');
+            }).catch(function(data){
+                console.log(data);
             });
-
-
         }
 
         vm.searchProducto = searchProducto;
