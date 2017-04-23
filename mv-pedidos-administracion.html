@@ -1,51 +1,64 @@
-<div class="lista">
-    <div>
-
-        <div class="input">
-            <input type="text" placeholder="Ingresa tu busqueda" ng-model="$ctrl.filtro" class="buscador" required/>
-        </div>
-        <div class="full-width">
-            <label class="label--checkbox">
-                <input type="checkbox" class="checkbox" ng-model="$ctrl.soloActivos"
-                       ng-click="$ctrl.loadPedidos();">
-                Mostrando los pedidos que no han sido recibidos
-            </label>
-
+<div class="container" ng-class="{'form-container':$ctrl.detailsOpen}">
+    <div ng-class="{'form-lista':$ctrl.detailsOpen}">
+        <div class="buscador-container">
+            <div class="input">
+                <input type="text" class="buscador" ng-model="$ctrl.filtro"
+                       placeholder="Buscar pedido" style="width: calc(100% - 10px)">
+            </div>
         </div>
 
-
+        <table>
+            <thead>
+            <tr>
+                <th>Proveedor</th>
+                <th>Fecha Pedido</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in $ctrl.pedidos | filter:$ctrl.filtro | limitTo:$ctrl.limit:$ctrl.start"
+                ng-click="row.pedido_id=''+row.pedido_id;$ctrl.pedido=row;$ctrl.detailsOpen=true;">
+                <td class="">{{row.proveedor_nombre}}</td>
+                <td class="">{{row.fecha_pedido}}</td>
+                <td class="">{{row.total | currency}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3">
+                    <div class="table-td">
+                    <span>
+                        <button class="paginacion-primera" ng-click="$ctrl.first();"></button>
+                        <button class="paginacion-ant" ng-click="$ctrl.prev();"></button>
+                    </span>
+                    <span class="paginacion-paginas">
+                        <span>{{'PAGE' | xlat}} {{$ctrl.pagina}} {{'OF' | xlat}} {{$ctrl.paginas}}</span>
+                    </span>
+                    <span class="paginacion-go-to">{{'GO_TO' | xlat}}
+                        <input type="number" ng-model="$ctrl.pagina" ng-keyup="$ctrl.goToPagina();"
+                               class="input-paginacion">
+                    </span>
+                    <span>
+                        <button class="paginacion-sig" ng-click="$ctrl.next();"></button>
+                        <button class="paginacion-ultima"ng-click="$ctrl.last();"></button>
+                    </span>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="botonera">
+            <button type="button" class="boton-agregar" ng-click="$ctrl.pedido = {pedidos_detalles:[], total:0};$ctrl.detailsOpen=true;" title="Nuevo">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
 
-
-    <table>
-        <thead>
-        <tr>
-            <th>Proveedor</th>
-            <th>Fecha de Pedido</th>
-            <th>Total</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr ng-repeat="row in $ctrl.pedidos | filter:$ctrl.filtro"
-            ng-click="$ctrl.pedido=row;$ctrl.detailsOpen = true;">
-
-            <td class="">{{row.proveedor_nombre}}</td>
-            <td class="">{{row.fecha_pedido}}</td>
-            <td class="">{{row.total | currency}}</td>
-        </tr>
-    </table>
-    <div class="botonera">
-        <button ng-click="$ctrl.pedido = {pedidos_detalles:[], total:0}; $ctrl.detailsOpen=true;">Nuevo</button>
-    </div>
+    <form class="form-abm" form-id="abm-detalle" ng-class="{'form-open':$ctrl.detailsOpen}">
+        <div class="detalle-container" >
+            <mv-pedidos-detalles pedido="$ctrl.pedido"></mv-pedidos-detalles>
+        </div>
+    </form>
 </div>
-<ac-blocker blocker-click="$ctrl.pedido = {}; $ctrl.detailsOpen = false;" visibility="$ctrl.detailsOpen"></ac-blocker>
-<form class="form details" form-id="producto-details"
-      ng-class="{'details-open':$ctrl.detailsOpen}">
-    <div class="detalle-container">
-        <ac-pedidos-detalles pedido="$ctrl.pedido"></ac-pedidos-detalles>
-    </div>
-</form>
-
 
 

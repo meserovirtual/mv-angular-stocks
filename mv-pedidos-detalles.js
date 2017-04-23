@@ -90,10 +90,16 @@
 
         SucursalesService.get().then(function (data) {
             vm.sucursales = data;
-            return UserService.getByParams('rol_id', '2', 'true');
-        }).then(function (data) {
+            //return UserService.getByParams('rol_id', '2', 'true');
+        }).catch(function(error){
+            console.log(error);
+        });
+
+        UserService.get(2).then(function (data) {
             vm.proveedores = data;
             vm.pedido.proveedor_id = vm.proveedores[0].proveedor_id;
+        }).catch(function(error){
+            console.log(error);
         });
 
         $scope.$watch('$ctrl.pedido', function () {
@@ -142,15 +148,11 @@
 
 
         function cleanProductos() {
-
-            if (vm.pedido.detalles.length > 0) {
-
+            if (vm.pedido.pedidos_detalles.length > 0) {
                 var r = confirm('Si cambia el proveedor, todo los productos serán eliminados');
                 if (r) {
-                    vm.pedido.detalles = [];
-
+                    vm.pedido.pedidos_detalles = [];
                 }
-
             }
         }
 
@@ -205,10 +207,7 @@
                 el[0].value = '';
             }
 
-
             vm.detalle = {};
-
-
         }
 
         function removeDetalle(index) {
@@ -231,36 +230,49 @@
         function save() {
 
             vm.pedido.usuario_id = UserService.getFromToken().data.id;
-            if (vm.pedido.pedido_id != undefined && vm.pedido.pedido_id != -1) {
-                PedidoService.update(vm.pedido,
-                    function (data) {
 
-                        if (data != -1) {
-                            MvUtils.showMessage('success', 'Pedido modificado con �xito.');
-                            $location.path('/caja/cobros');
+            PedidoService.save(vm.pedido).then(function(data){
+                console.log(data);
+                if(data.status == 200) {
+                    MvUtils.showMessage('success', 'Operación realizada con exito');
 
-                        } else {
-                            MvUtils.showMessage('success', 'Error al modificar el pedido.');
-                        }
-                        ProductVars.clearCache = true;
-                        ProductService.get(function (data) {
-                        });
-                    });
-            } else {
-                PedidoService.create(vm.pedido,
-                    function (data) {
+                }
 
-                        if (data !== -1) {
-                            MvUtils.showMessage('success', 'Pedido generado con éxito.');
-                            $location.path('/caja/cobros');
-                        } else {
-                            MvUtils.showMessage('success', 'Error al generar el pedido.');
-                        }
-                        ProductVars.clearCache = true;
-                        ProductService.get(function (data) {
-                        });
-                    });
-            }
+            }).catch(function(error){
+                console.log(error);
+            });
+            /*
+             if (vm.pedido.pedido_id != undefined && vm.pedido.pedido_id != -1) {
+             PedidoService.update(vm.pedido,
+             function (data) {
+
+             if (data != -1) {
+             MvUtils.showMessage('success', 'Pedido modificado con �xito.');
+             $location.path('/caja/cobros');
+
+             } else {
+             MvUtils.showMessage('success', 'Error al modificar el pedido.');
+             }
+             ProductVars.clearCache = true;
+             ProductService.get(function (data) {
+             });
+             });
+             } else {
+             PedidoService.create(vm.pedido,
+             function (data) {
+
+             if (data !== -1) {
+             MvUtils.showMessage('success', 'Pedido generado con éxito.');
+             $location.path('/caja/cobros');
+             } else {
+             MvUtils.showMessage('success', 'Error al generar el pedido.');
+             }
+             ProductVars.clearCache = true;
+             ProductService.get(function (data) {
+             });
+             });
+             }
+             */
         }
 
         function agregarFaltante(detalle) {
@@ -275,22 +287,16 @@
             if (!existe) {
                 vm.faltantes.push(detalle);
             }
-
             //console.log(vm.faltantes);
-
         }
 
 
         function confirmarPedidoFaltante() {
-
             var total_pedido_origen = 0.0;
             var total_pedido_faltantes = 0.0;
 
-
             for (var i = 0; i < vm.faltantes.length; i++) {
-
                 total_pedido_faltantes = parseFloat(total_pedido_faltantes) + parseFloat(vm.faltantes[i].precio_total);
-
             }
 
             total_pedido_origen = parseFloat(vm.pedido.total) - total_pedido_faltantes;
@@ -311,7 +317,6 @@
 
             vm.pedido.total = total_pedido_origen;
 
-
             var detallesSinFaltantes = vm.pedido.pedidos_detalles.filter(
                 function (elem, index, array) {
                     var encontrado = false;
@@ -331,13 +336,17 @@
 
             if (vm.pedido_faltante_id === -1) {
 
-                PedidoService.create(vm.nuevoPedido, function (data) {
-                    //console.log(data);
-                    PedidoService.update(vm.pedido, function (data) {
+                PedidoService.create(vm.nuevoPedido).then(function (data) {
+                    console.log(data);
+                    PedidoService.update(vm.pedido).then(function (data) {
                         MvUtils.showMessage('success', 'Pedido creado con éxito');
                         $location.path('/caja/cobros');
-                        //console.log(data);
+                        console.log(data);
+                    }).catch(function(error){
+                        console.log(error);
                     })
+                }).catch(function(error){
+                    console.log(error);
                 })
             } else {
 
@@ -350,13 +359,17 @@
                     data[0].pedidos_detalles = vm.faltantes;
                     data[0].total = parseFloat(data[0].total) + total_pedido_faltantes;
 
-                    PedidoService.update(data[0], function (data) {
-                        PedidoService.update(vm.pedido, function (data) {
+                    PedidoService.update(data[0]).then(function (data) {
+                        PedidoService.update(vm.pedido).then(function (data) {
                             MvUtils.showMessage('success', 'Pedido modificado con éxito');
                             $location.path('/caja/cobros');
-                            //console.log(data);
-                        })
-                    })
+                            console.log(data);
+                        }).catch(function(error){
+                            console.log(error);
+                        });
+                    }).catch(function(error){
+                        console.log(error);
+                    });
                 });
 
 
@@ -407,153 +420,21 @@
                 }
             }
 
-
             vm.mostrarMoverFaltantes = true;
             PedidoVars.all = false;
-            PedidoService.get(
-                function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (vm.id != data[i].pedido_id) {
-                            vm.pedidosActivos.push(data[i]);
-                        }
+            PedidoService.get().then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (vm.id != data[i].pedido_id) {
+                        vm.pedidosActivos.push(data[i]);
                     }
                 }
-            );
+            }).catch(function(error){
+                console.log(error);
+            });
 
         }
-
         //console.log(vm.busqueda.prop('offsetTop'));
-
     }
 
-    //PedidosService.$inject = ['$http', '$location'];
-    //function PedidosService($http, $location) {
-    //    var service = {};
-    //    service.savePedido = savePedido;
-    //    service.updatePedido = updatePedido;
-    //    service.getPedidos = getPedidos;
-    //    service.getPedidoById = getPedidoById;
-    //    service.confirmarPedido = confirmarPedido;
-    //    service.getPedidosActivos = getPedidosActivos;
-    //    service.deletePedido = deletePedido;
-    //    service.deletePedidoDetalles = deletePedidoDetalles;
-    //    service.savePedidoDetalles = savePedidoDetalles;
-    //
-    //    return service;
-    //
-    //    function getPedidos(callback) {
-    //
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: 'getPedidos'},
-    //            {cache: true})
-    //            .success(function (data) {
-    //
-    //                for (var i = 0; i < data.length; i++) {
-    //                    for (var x = 0; x < data[i].detalles.length; x++) {
-    //                        data[i].detalles[x].precio_unidad = parseFloat(data[i].detalles[x].precio_unidad);
-    //                    }
-    //                }
-    //
-    //                callback(data)
-    //            })
-    //            .error(function (data) {
-    //                console.log(data);
-    //            });
-    //    }
-    //
-    //    function getPedidoById(id, callback) {
-    //
-    //        getPedidos(function (data) {
-    //            var response = data.filter(function (entry, index, array) {
-    //                return entry.pedido_id == id;
-    //            })[0];
-    //            callback(response);
-    //        });
-    //
-    //    }
-    //
-    //    function getPedidosActivos(id, callback) {
-    //
-    //        getPedidos(function (data) {
-    //            var response = [];
-    //            data.filter(function (entry, index, array) {
-    //                if ((entry.fecha_entrega === undefined ||
-    //                    entry.fecha_entrega === '' ||
-    //                    entry.fecha_entrega === null ||
-    //                    entry.fecha_entrega === '0000-00-00 00:00:00') &&
-    //                    entry.pedido_id != id) {
-    //
-    //                    response.push(entry);
-    //                }
-    //            });
-    //            callback(response);
-    //        });
-    //
-    //    }
-    //
-    //    function savePedido(_function, pedido, callback) {
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: _function, data: JSON.stringify(pedido)})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //    function updatePedido(_function, pedido, callback) {
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: _function, data: JSON.stringify(pedido)})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //    function deletePedido(pedido_id, callback) {
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: 'deletePedido', data: pedido_id})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //    function deletePedidoDetalles(detalles, callback) {
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: 'deletePedidoDetalles', data: JSON.stringify(detalles)})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //    function savePedidoDetalles(pedido_id, detalles, callback) {
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: 'savePedidoDetalles', pedido_id: pedido_id, data: JSON.stringify(detalles)})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //    function confirmarPedido(_function, pedido, callback) {
-    //
-    //        //PagoProveedoresPedidoService.pedido = pedido;
-    //        //$location.path('/listado_pedidos');
-    //
-    //        return $http.post('./stock-api/stock.php',
-    //            {function: _function, data: JSON.stringify(pedido)})
-    //            .success(function (data) {
-    //                callback(data);
-    //            })
-    //            .error(function (data) {
-    //            });
-    //    }
-    //
-    //}
+
 })();

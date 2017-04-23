@@ -37,6 +37,7 @@
         service.getPedidosDetalles = getPedidosDetalles;
         service.getByParams = getByParams;
 
+        service.save = save;
         service.create = create;
         service.createPedidoDetalle = createPedidoDetalle;
 
@@ -291,20 +292,35 @@
          * @param callback
          * @description: Elimina el pedido seleccionado.
          */
-        function remove(pedido_id, callback) {
+        function remove(pedido_id) {
             return $http.post(url,
                 {function: 'removePedido', 'pedido_id': pedido_id})
-                .success(function (data) {
-                    //console.log(data);
-                    if (data !== 'false') {
-                        PedidoVars.clearCache = true;
-                        callback(data);
-                    }
+                .then(function (data) {
+                    PedidoVars.clearCache = true;
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (data) {
+                    PedidoVars.clearCache = true;
+                    ErrorHandler(data);
                 })
         }
+
+        /**
+         *
+         * @param pedido
+         * @returns {*}
+         */
+        function save(pedido) {
+            var deferred = $q.defer();
+
+            if (pedido.pedido_id != undefined) {
+                deferred.resolve(update(pedido));
+            } else {
+                deferred.resolve(create(pedido));
+            }
+            return deferred.promise;
+        }
+
 
         /**
          * @description: Crea un pedido.
@@ -312,20 +328,19 @@
          * @param callback
          * @returns {*}
          */
-        function create(pedido, callback) {
-
+        function create(pedido) {
             return $http.post(url,
                 {
                     'function': 'createPedido',
                     'pedido': JSON.stringify(pedido)
                 })
-                .success(function (data) {
+                .then(function (data) {
                     PedidoVars.clearCache = true;
-                    callback(data);
+                    return data;
                 })
-                .error(function (data) {
+                .catch(function (data) {
                     PedidoVars.clearCache = true;
-                    callback(data);
+                    ErrorHandler(data);
                 });
         }
 
@@ -335,18 +350,19 @@
          * @param callback
          * @description: Realiza update al pedido.
          */
-        function update(pedido, callback) {
+        function update(pedido) {
             return $http.post(url,
                 {
                     'function': 'updatePedido',
                     'pedido': JSON.stringify(pedido)
                 })
-                .success(function (data) {
+                .then(function (data) {
                     PedidoVars.clearCache = true;
-                    callback(data);
+                    return data;
                 })
-                .error(function (data) {
-                    callback(data);
+                .catch(function (data) {
+                    PedidoVars.clearCache = true;
+                    ErrorHandler(data);
                 });
         }
 
