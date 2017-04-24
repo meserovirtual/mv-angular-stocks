@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="mv-col">
+<div class="mv-col" style="margin-bottom: 30px">
     <div class="input">
         <label>Proveedor</label>
         <select name="proveedor" id="proveedor" ng-model="$ctrl.pedido.proveedor_id"
@@ -66,15 +66,15 @@
     <table style="max-width: 1000px">
         <thead>
         <tr>
-            <th style="font-size:12px;">Producto</th>
-            <th style="font-size:12px;">Precio Total</th>
-            <th style="font-size:12px;">Precio Unit.</th>
-            <th style="font-size:12px;">Cantidad</th>
-            <th style="font-size:12px;">Acción</th>
+            <th style="font-size:13px;">Producto</th>
+            <th style="font-size:13px;">Precio Total</th>
+            <th style="font-size:13px;">Precio Unit.</th>
+            <th style="font-size:13px;">Cantidad</th>
+            <th style="font-size:13px;">Acción</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="row in $ctrl.pedido.pedidos_detalles" style="font-size: 12px;">
+        <tr ng-repeat="row in $ctrl.pedido.pedidos_detalles" style="font-size: 13px;">
             <td class="">{{row.nombre}}</td>
             <td class="">{{row.precio_total | currency}}</td>
             <td class="">
@@ -85,7 +85,7 @@
                         ng-blur="$ctrl.recalcularTotal(row);"
                         ng-change="(row.precio_unidad<0)?row.precio_unidad=0:row.precio_unidad;
                    $ctrl.recalcularTotalDetalle(row);"
-                        style="width:50px;text-align: right;height: 30px;"/>
+                        style="width:50px;text-align: right;height: 20px; font-size: 13px"/>
             </td>
             <td class="">
                 <input type="number"
@@ -94,7 +94,7 @@
                        ng-blur="$ctrl.recalcularTotal(row);"
                        ng-change="(row.cantidad<0)?row.cantidad=0:row.cantidad;
                    $ctrl.recalcularTotalDetalle(row);"
-                       style="width:50px;text-align: right;padding: 0;height: 30px;"/>
+                       style="width:50px;text-align: right;padding: 0;height: 20px; font-size: 13px"/>
             </td>
             <td class="">
                 <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle($index)" title="Quitar"
