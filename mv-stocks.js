@@ -764,7 +764,6 @@
                     StockVars.paginas = (response.data.length % StockVars.paginacion == 0) ? parseInt(response.data.length / StockVars.paginacion) : parseInt(response.data.length / StockVars.paginacion) + 1;
                     MvUtilsGlobals.stocks = response.data;
                     MvUtilsGlobals.stopWaiting();
-                    console.log(response.data);
                     return response.data;
                 })
                 .catch(function (response) {
