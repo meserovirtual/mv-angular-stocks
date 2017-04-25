@@ -15,8 +15,8 @@
     }
 
 
-    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars'];
-    function MvPedidosController(PedidoService, $location, PedidoVars) {
+    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars', 'MvUtils'];
+    function MvPedidosController(PedidoService, $location, PedidoVars, MvUtils) {
 
         var vm = this;
 
@@ -36,22 +36,54 @@
         function loadPedidos() {
             if (vm.soloActivos) {
                 PedidoVars.all = false;
-                PedidoService.get(
-                    function (data) {
-                        vm.pedidos = data;
-                        //console.log(vm.pedidos);
-                    }
-                );
+                PedidoService.get().then(function (data) {
+                    vm.pedidos = data;
+                    vm.paginas = PedidoVars.paginas;
+                    console.log(vm.pedidos);
+                }).catch(function(error){
+                    console.log(error);
+                });
             } else {
-
                 PedidoVars.all = true;
-                PedidoService.get(
-                    function (data) {
-                        vm.pedidos = data;
-                        //console.log(vm.pedidos);
-                    }
-                );
+                PedidoService.get().then(function (data) {
+                    vm.pedidos = data;
+                    vm.paginas = PedidoVars.paginas;
+                    console.log(vm.pedidos);
+                }).catch(function(error){
+                    console.log(error);
+                });
             }
+        }
+
+        // Implementación de la paginación
+        vm.start = 0;
+        vm.limit = PedidoVars.paginacion;
+        vm.pagina = PedidoVars.pagina;
+        vm.paginas = PedidoVars.paginas;
+
+        function paginar(vars) {
+            if (vars == {}) {
+                return;
+            }
+            vm.start = vars.start;
+            vm.pagina = vars.pagina;
+        }
+
+        vm.next = function () {
+            paginar(MvUtils.next(PedidoVars));
+        };
+        vm.prev = function () {
+            paginar(MvUtils.prev(PedidoVars));
+        };
+        vm.first = function () {
+            paginar(MvUtils.first(PedidoVars));
+        };
+        vm.last = function () {
+            paginar(MvUtils.last(PedidoVars));
+        };
+
+        vm.goToPagina = function () {
+            paginar(MvUtils.goToPagina(vm.pagina, PedidoVars));
         }
 
 
