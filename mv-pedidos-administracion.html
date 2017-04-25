@@ -6,7 +6,12 @@
                        placeholder="Buscar pedido" style="width: calc(100% - 10px)">
             </div>
         </div>
-
+        <div class="">
+            <label class="label--checkbox" ng-click="$ctrl.soloActivos=!$ctrl.soloActivos;$ctrl.loadPedidos();">
+                <input type="checkbox" class="checkbox" id="check-soloActivos" ng-checked="$ctrl.soloActivos">Mostrando los pedidos que no han sido recibidos
+            </label>
+        </div>
+        
         <table>
             <thead>
             <tr>
