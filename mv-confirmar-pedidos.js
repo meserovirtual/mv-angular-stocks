@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('mvConfirmarPedidos', ['ngRoute'])
-        .component('mvConfirmarPedidos', mvConfirmarPedidos());
+        .component('mvConfirmarPedidos', mvConfirmarPedidos())
+        .service('ConfirmarPedidoService', ConfirmarPedidoService);;
 
     function mvConfirmarPedidos() {
         return {
@@ -15,8 +16,8 @@
     }
 
 
-    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars', 'MvUtils'];
-    function MvPedidosController(PedidoService, $location, PedidoVars, MvUtils) {
+    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars', 'MvUtils', 'ConfirmarPedidoService'];
+    function MvPedidosController(PedidoService, $location, PedidoVars, MvUtils, ConfirmarPedidoService) {
 
         var vm = this;
 
@@ -24,8 +25,16 @@
         vm.detalle = detalle;
         vm.soloActivos = true;
         vm.loadPedidos = loadPedidos;
+        vm.detailsOpen = false;
 
         loadPedidos();
+
+
+        ConfirmarPedidoService.listen(function () {
+            vm.detailsOpen = ConfirmarPedidoService.detailsOpen;
+            if(!vm.detailsOpen)
+                loadPedidos();
+        });
 
 
         function detalle(id) {
@@ -85,8 +94,21 @@
         vm.goToPagina = function () {
             paginar(MvUtils.goToPagina(vm.pagina, PedidoVars));
         }
+    }
 
 
+    ConfirmarPedidoService.$inject = ['$rootScope'];
+    function ConfirmarPedidoService($rootScope) {
+
+        this.detailsOpen = false;
+
+        this.broadcast = function () {
+            $rootScope.$broadcast("refreshDetailForm")
+        };
+
+        this.listen = function (callback) {
+            $rootScope.$on("refreshDetailForm", callback)
+        };
     }
 
 

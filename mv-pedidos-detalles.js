@@ -19,9 +19,10 @@
 
 
     PedidosController.$inject = ['$routeParams', 'ProductService', 'PedidoService', '$location', '$window',
-        'UserService', 'SucursalesService', 'ProductVars', 'PedidoVars', 'MvUtils', '$scope'];
+        'UserService', 'SucursalesService', 'ProductVars', 'PedidoVars', 'MvUtils', '$scope', 'PedidoAdminService'];
     function PedidosController($routeParams, ProductService, PedidoService, $location, $window,
-                               UserService, SucursalesService, ProductVars, PedidoVars, MvUtils, $scope) {
+                               UserService, SucursalesService, ProductVars, PedidoVars, MvUtils,
+                               $scope, PedidoAdminService) {
 
         var vm = this;
         vm.isUpdate = false;
@@ -69,7 +70,7 @@
         vm.busqueda = '';
         vm.sucursales = [];
 
-
+        //FUNCIONES
         //vm.mostrarPanel = mostrarPanel;
         //vm.selectProducto = selectProducto;
         vm.agregarDetalle = agregarDetalle;
@@ -83,6 +84,7 @@
         vm.deletePedido = deletePedido;
         vm.cleanProductos = cleanProductos;
         vm.searchProducto = searchProducto;
+        vm.closeForm = closeForm;
 
         function searchProducto(callback) {
             ProductService.get().then(callback);
@@ -112,6 +114,11 @@
                 }
             }
         });
+
+        function closeForm() {
+            PedidoAdminService.detailsOpen = false;
+            PedidoAdminService.broadcast();
+        }
 
         //if (vm.id == 0) {
         //    vm.isUpdate = false;
@@ -235,7 +242,7 @@
                 console.log(data);
                 if(data.status == 200) {
                     MvUtils.showMessage('success', 'Operación realizada con exito');
-
+                    closeForm();
                 }
 
             }).catch(function(error){

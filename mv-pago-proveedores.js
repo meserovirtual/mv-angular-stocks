@@ -15,9 +15,10 @@
     }
 
     PagoProveedoresController.$inject = ["$scope", "$routeParams", "$location", "MovimientosService",
-        'PedidoService', 'StockService', 'MvUtilsGlobals', 'MvUtils', 'UserService'];
+        'PedidoService', 'StockService', 'MvUtilsGlobals', 'MvUtils', 'UserService', 'ConfirmarPedidoService'];
     function PagoProveedoresController($scope, $routeParams, $location, MovimientosService,
-                                       PedidoService, StockService, MvUtilsGlobals, MvUtils, UserService) {
+                                       PedidoService, StockService, MvUtilsGlobals, MvUtils,
+                                       UserService, ConfirmarPedidoService) {
         var vm = this;
         vm.comentario = '';
         vm.subtipo = '00';
@@ -28,17 +29,25 @@
         vm.parcial_02 = 0.0;
         vm.parcial_03 = 0.0;
         vm.proveedores = 0.0;
-        vm.save = save;
         vm.id = $routeParams.id;
         vm.pedido = {total: 0};
         vm.pedido.total = (vm.pedido != undefined) ? parseFloat(vm.pedido.total) : 0;
         vm.parcial_01 = (vm.pedido != undefined) ? parseFloat(vm.pedido.total) : 0;
 
+        //FUNCIONES
+        vm.save = save;
+        vm.closeForm = closeForm;
 
         $scope.$watch('$ctrl.pedido', function () {
             console.log(vm.pedido);
             vm.parcial_01 = vm.pedido == undefined ? 0.00 : parseFloat(vm.pedido.total);
         });
+
+
+        function closeForm() {
+            ConfirmarPedidoService.detailsOpen = false;
+            ConfirmarPedidoService.broadcast();
+        }
 
 
         function save() {
@@ -75,16 +84,19 @@
             PedidoService.confirmarPedido(vm.pedido).then(function (data) {
                 if (data > 0) {
                     //(tipo_asiento, subtipo_asiento, sucursal_id, forma_pago, transferencia_desde, total, descuento, detalle, items, cliente_id, usuario_id, comentario, callback)
-                    MovimientosService.armarMovimiento('002', vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.pedido.total, '', vm.comentario, vm.pedido, vm.pedido.proveedor_id, 1, vm.comentario, function (data) {
-                        vm.comentario = '';
-                        vm.subtipo = '00';
-                        vm.forma_pago = '01';
-                        StockService.create(detalles).then(function(data) {
-                            $location.path('/caja/cobros');
-                            MvUtils.showMessage('success', 'Pedido Confirmado');
-                        }).catch(function(error){
-                            console.log(error);
-                        });
+                    MovimientosService.armarMovimiento('002', vm.subtipo, UserService.getFromToken().data.sucursal_id, UserService.getFromToken().data.caja_id, vm.forma_pago, '', vm.pedido.total, '', vm.comentario, vm.pedido, vm.pedido.proveedor_id, 1, vm.comentario).then(function (data) {
+                        if(data.status == 200) {
+                            vm.comentario = '';
+                            vm.subtipo = '00';
+                            vm.forma_pago = '01';
+                            StockService.create(detalles).then(function(data) {
+                                //$location.path('/caja/cobros');
+                                closeForm();
+                                MvUtils.showMessage('success', 'Pedido Confirmado');
+                            }).catch(function(error){
+                                console.log(error);
+                            });
+                        }
                     });
                 } else {
                     //toastr.success('Pedido confirmado con éxito.');

@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('mvPedidosAdministracion', ['ngRoute'])
-        .component('mvPedidosAdministracion', mvPedidosAdministracion());
+        .component('mvPedidosAdministracion', mvPedidosAdministracion())
+        .service('PedidoAdminService', PedidoAdminService);
 
 
     function mvPedidosAdministracion() {
@@ -16,8 +17,8 @@
     }
 
 
-    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars', 'MvUtils'];
-    function MvPedidosController(PedidoService, $location, PedidoVars, MvUtils) {
+    MvPedidosController.$inject = ['PedidoService', '$location', 'PedidoVars', 'MvUtils', 'PedidoAdminService'];
+    function MvPedidosController(PedidoService, $location, PedidoVars, MvUtils, PedidoAdminService) {
 
         var vm = this;
 
@@ -28,8 +29,16 @@
         vm.pedido = {};
         vm.paginas = 1;
         vm.indice = -1;
+        vm.detailsOpen = false;
 
         loadPedidos();
+
+
+        PedidoAdminService.listen(function () {
+            vm.detailsOpen = PedidoAdminService.detailsOpen;
+            if(!vm.detailsOpen)
+                loadPedidos();
+        });
 
 
         function detalle(id) {
@@ -91,6 +100,21 @@
             paginar(AcUtils.goToPagina(vm.pagina, PedidoVars));
         }
 
+    }
+
+
+    PedidoAdminService.$inject = ['$rootScope'];
+    function PedidoAdminService($rootScope) {
+
+        this.detailsOpen = false;
+
+        this.broadcast = function () {
+            $rootScope.$broadcast("refreshDetailForm")
+        };
+
+        this.listen = function (callback) {
+            $rootScope.$on("refreshDetailForm", callback)
+        };
     }
 
 

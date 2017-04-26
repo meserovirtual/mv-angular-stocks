@@ -99,6 +99,13 @@
 </div>
 
 <div class="botonera">
-    <button class="btn-agregar" mv-validator ng-click="$ctrl.save()">Confirmar</button>
+    <!--<button class="btn-agregar" mv-validator ng-click="$ctrl.save()">Confirmar</button>
+    <button class="btn-agregar" ng-click="$ctrl.closeForm()">Cerrar</button>-->
+    <button class="boton-ok" ng-click="$ctrl.save();" title="Confirmar">
+        <i class="fa fa-check" aria-hidden="true"></i>
+    </button>
+    <button class="boton-cancelar" ng-click="$ctrl.closeForm();" title="Cerrar">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
 </div>
 
