@@ -33,10 +33,10 @@
         </thead>
         <tbody>
         <tr ng-repeat="row in $ctrl.stocks | filter:$ctrl.filtro">
-            <td class="">{{row.nombreProducto}}</td>
-            <td class="">{{row.nombre}} {{row.apellido}}</td>
-            <td class="">{{row.nombreSucursal}}</td>
-            <td class="">{{row.cant_actual}}</td>
+            <td class="">{{row.nombre}}</td>
+            <td class="">{{row.nombreProveedor}}</td>
+            <td class="">{{row.stocks[0].sucursal_id}}</td>
+            <td class="">{{row.stocks[0].cant_actual}}</td>
         </tr>
         </tbody>
         <tfoot>

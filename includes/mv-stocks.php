@@ -83,8 +83,8 @@ class Stocks extends Main
     st.costo_uni,
     st.proveedor_id,
     ki.producto_id producto_kit_id,
-    u.nombre,
-    u.apellido
+    u.nombre nombreProveedor,
+    u.apellido apellidoProveedor
 FROM
     productos p
         LEFT JOIN
@@ -115,6 +115,9 @@ WHERE
                     'producto_tipo_id' => $row["producto_tipo_id"],
                     'iva' => $row["iva"],
                     'pto_repo' => $row["pto_repo"],
+                    'proveedor_id' => $row["proveedor_id"],
+                    'nombreProveedor' => $row["nombreProveedor"],
+                    'apellidoProveedor' => $row["apellidoProveedor"],
                     'stocks' => array(),
                     'precios' => array(),
                     'kits' => array()
