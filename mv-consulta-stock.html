@@ -1,31 +1,28 @@
-<div ng-controller="ConsultaStockController as consultaStockCtrl" xmlns="http://www.w3.org/1999/html">
-    <div class="title"><h1 >Consulta de Stock</h1></div>
+<div class="container container-bgk container-padding">
+    <h1 class="secciones">Consulta de Stock</h1>
+    <form class="" name="consultarStockForm" form-id="mv-consulta-stock">
+        <div class="form-container-wrapper">
+            <div class="form-flex-between">
+                <div class="input">
+                    <label for="origen">Sucursal</label>
+                    <select name="origen" id="origen" ng-model="$ctrl.sucursal"
+                            ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales"
+                            ng-change="$ctrl.filtroSucursal();">
+                    </select>
+                </div>
 
-    <div class="v-spacer"></div>
-
-    <div class="full-width lista-flex" >
-
-        <div>
-            <input type="text" ng-model="consultaStockCtrl.filtro" class="full-width" required/>
-            <label>Filtrar Productos...</label>
+                <div class="input">
+                    <div class="back-pedidos">
+                        <label class="label--checkbox" ng-click="$ctrl.soloActivos=!$ctrl.soloActivos;$ctrl.loadConStock();">
+                            <input type="checkbox" class="checkbox" id="check-soloActivos" ng-checked="$ctrl.soloActivos">Con Stock
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <select
-                ng-model="consultaStockCtrl.sucursal"
-                ng-options="sucursal.nombre  for sucursal in consultaStockCtrl.sucursales" name=""
-                ng-click="consultaStockCtrl.filtroSucursal()">
+    </form>
 
-        </select>
-        <div>
-            <label class="label--checkbox">
-                <input type="checkbox" class="checkbox" ng-model="consultaStockCtrl.conStock" ng-click="consultaStockCtrl.loadConStock();">
-                Con Stock
-            </label>
-        </div>
-    </div>
-
-
-
-    <table st-table="consultaStockCtrl.stocks" class="table table-striped">
+    <table>
         <thead>
         <tr>
             <th>Producto</th>
@@ -35,17 +32,43 @@
         </tr>
         </thead>
         <tbody>
-
-        <tr ng-repeat="row in consultaStockCtrl.stocks | filter:consultaStockCtrl.filtro">
-
+        <tr ng-repeat="row in $ctrl.stocks | filter:$ctrl.filtro">
             <td class="">{{row.nombreProducto}}</td>
             <td class="">{{row.nombre}} {{row.apellido}}</td>
             <td class="">{{row.nombreSucursal}}</td>
             <td class="">{{row.cant_actual}}</td>
-
         </tr>
         </tbody>
-
+        <tfoot>
+        <tr>
+            <td colspan="4">
+                <div class="table-td">
+                        <span>
+                            <button class="paginacion-primera" ng-click="$ctrl.first();"></button>
+                            <button class="paginacion-ant" ng-click="$ctrl.prev();"></button>
+                        </span>
+                        <span class="paginacion-paginas">
+                            <span>{{'PAGE' | xlat}} {{$ctrl.pagina}} {{'OF' | xlat}} {{$ctrl.paginas}}</span>
+                        </span>
+                        <span class="paginacion-go-to">{{'GO_TO' | xlat}}
+                            <input type="number" ng-model="$ctrl.pagina" ng-keyup="$ctrl.goToPagina();"
+                                   class="input-paginacion">
+                        </span>
+                        <span>
+                            <button class="paginacion-sig" ng-click="$ctrl.next();"></button>
+                            <button class="paginacion-ultima"ng-click="$ctrl.last();"></button>
+                        </span>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
     </table>
-
+    <div class="botonera">
+        <button class="boton-ok" ng-click="$ctrl.save();">
+            <i class="fa fa-check" aria-hidden="true"></i>
+        </button>
+    </div>
 </div>
+
+
+

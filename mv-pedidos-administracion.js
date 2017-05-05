@@ -47,26 +47,14 @@
 
 
         function loadPedidos() {
-            if (vm.soloActivos) {
-                PedidoVars.all = false;
-                PedidoService.get().then(function (data) {
-                    vm.pedidos = data;
-                    vm.paginas = PedidoVars.paginas;
-                    console.log(vm.pedidos);
-                }).catch(function(error){
-                    console.log(error);
-                });
-            } else {
+            PedidoVars.all = (vm.soloActivos) ? false : true;
 
-                PedidoVars.all = true;
-                PedidoService.get().then(function (data) {
-                    vm.pedidos = data;
-                    vm.paginas = PedidoVars.paginas;
-                    console.log(vm.pedidos);
-                }).catch(function(error){
-                    console.log(error);
-                });
-            }
+            PedidoService.get().then(function (data) {
+                vm.pedidos = data;
+                vm.paginas = PedidoVars.paginas;
+            }).catch(function(error){
+                console.log(error);
+            });
         }
 
         // Implementación de la paginación
@@ -84,20 +72,20 @@
         }
 
         vm.next = function () {
-            paginar(AcUtils.next(PedidoVars));
+            paginar(MvUtils.next(PedidoVars));
         };
         vm.prev = function () {
-            paginar(AcUtils.prev(PedidoVars));
+            paginar(MvUtils.prev(PedidoVars));
         };
         vm.first = function () {
-            paginar(AcUtils.first(PedidoVars));
+            paginar(MvUtils.first(PedidoVars));
         };
         vm.last = function () {
-            paginar(AcUtils.last(PedidoVars));
+            paginar(MvUtils.last(PedidoVars));
         };
 
         vm.goToPagina = function () {
-            paginar(AcUtils.goToPagina(vm.pagina, PedidoVars));
+            paginar(MvUtils.goToPagina(vm.pagina, PedidoVars));
         }
 
     }

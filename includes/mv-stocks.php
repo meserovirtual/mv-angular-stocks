@@ -81,7 +81,10 @@ class Stocks extends Main
     st.stock_id,
     st.cant_actual,
     st.costo_uni,
-    ki.producto_id producto_kit_id
+    st.proveedor_id,
+    ki.producto_id producto_kit_id,
+    u.nombre,
+    u.apellido
 FROM
     productos p
         LEFT JOIN
@@ -92,6 +95,8 @@ FROM
     sucursales su ON su.sucursal_id = st.sucursal_id
         LEFT JOIN
     productos_kits ki ON ki.parent_id = p.producto_id
+        LEFT JOIN
+    usuarios u ON u.usuario_id = st.proveedor_id
 WHERE
 (((p.producto_tipo_id = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo_id = 3) OR (p.producto_tipo_id = 2);';
 
