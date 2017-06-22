@@ -16,8 +16,8 @@
     }
 
 
-    MvConsultaStockController.$inject = ['StockService', 'StockVars', 'MvUtils', 'SucursalesService'];
-    function MvConsultaStockController(StockService, StockVars, MvUtils, SucursalesService) {
+    MvConsultaStockController.$inject = ['StockService', 'StockVars', 'MvUtils', 'SucursalesService', 'MvUtilsGlobals'];
+    function MvConsultaStockController(StockService, StockVars, MvUtils, SucursalesService, MvUtilsGlobals) {
 
         var vm = this;
 
@@ -25,53 +25,52 @@
         vm.todos = [];
         vm.sucursales = [];
         vm.sucursal = {};
-        vm.conStock = true;
+        vm.sinStock = false;
         vm.paginas = 1;
         vm.indice = -1;
         StockVars.sucursal_id = -1;
 
 
-        SucursalesService.get().then(function (data) {
-            vm.sucursales = data;
-            vm.sucursales.push({sucursal_id: -1, nombre: "Todas", direccion: "", telefono: ""});
-            vm.sucursal = vm.sucursales[vm.sucursales.length - 1];
-
-            StockVars.sucursal_id = -1;
-            vm.conStock = true;
-
-            loadConStock();
-
-        }).catch(function(error){
-            console.log(error);
-        });
+        //FUNCIONES
+        vm.loadSucursales = loadSucursales;
+        vm.loadStockPorSucursal = loadStockPorSucursal;
 
 
-        loadConStock();
-        filtroSucursal();
+        loadSucursales();
+        loadStockPorSucursal();
 
-        function loadConStock() {
-            StockVars.clearCache = true;
-            StockVars.reducido = (vm.conStock) ? true : false;
 
-            StockService.get().then(function (data) {
-                vm.stocks = data;
-                vm.paginas = StockVars.paginas;
+        function loadSucursales() {
+            SucursalesService.get().then(function (data) {
+                vm.sucursales = data;
+                vm.sucursales.push({sucursal_id: -1, nombre: "Todas", direccion: "", telefono: ""});
+                vm.sucursal = vm.sucursales[vm.sucursales.length - 1];
             }).catch(function(error){
                 console.log(error);
             });
         }
 
-        function filtroSucursal() {
-            console.log(vm.sucursal);
-            if (vm.sucursal.sucursal_id !== -1) {
-                var results = vm.todos.filter(function (elem, index, array) {
-                    return elem.sucursal_id == vm.sucursal.sucursal_id;
-                });
-                vm.stocks = results;
-            } else {
-                vm.stocks = vm.todos;
-            }
+
+        function loadStockPorSucursal() {
+            vm.stocks = [];
+            StockVars.clearCache = true;
+            MvUtilsGlobals.sucursal_id_search = vm.sucursal.sucursal_id;
+            StockService.get().then(function (data) {
+                if(vm.sinStock) {
+                    for(var i=0; i < data.length - 1; i++) {
+                        if(data[i].stocks[0].cant_actual < data[i].pto_repo){
+                            vm.stocks.push(data[i]);
+                        }
+                    }
+                } else {
+                    vm.stocks = data;
+                }
+            }).catch(function(error){
+                console.log(error);
+            });
         }
+
+
 
 
         // Implementación de la paginación

@@ -7,14 +7,14 @@
                     <label for="origen">Sucursal</label>
                     <select name="origen" id="origen" ng-model="$ctrl.sucursal"
                             ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales"
-                            ng-change="$ctrl.filtroSucursal();">
+                            ng-change="$ctrl.loadStockPorSucursal();" >
                     </select>
                 </div>
 
                 <div class="input">
                     <div class="back-pedidos">
-                        <label class="label--checkbox" ng-click="$ctrl.soloActivos=!$ctrl.soloActivos;$ctrl.loadConStock();">
-                            <input type="checkbox" class="checkbox" id="check-soloActivos" ng-checked="$ctrl.soloActivos">Con Stock
+                        <label class="label--checkbox" ng-click="$ctrl.sinStock=!$ctrl.sinStock;$ctrl.loadStockPorSucursal();">
+                            <input type="checkbox" class="checkbox" id="check-sinStock" ng-checked="$ctrl.sinStock">Sin Stock
                         </label>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
         <tr ng-repeat="row in $ctrl.stocks | filter:$ctrl.filtro">
             <td class="">{{row.nombre}}</td>
             <td class="">{{row.nombreProveedor}}</td>
-            <td class="">{{row.stocks[0].sucursal_id}}</td>
+            <td class="">{{row.stocks[0].nombreSucursal}}</td>
             <td class="">{{row.stocks[0].cant_actual}}</td>
         </tr>
         </tbody>
@@ -63,11 +63,11 @@
         </tr>
         </tfoot>
     </table>
-    <div class="botonera">
+    <!--<div class="botonera">
         <button class="boton-ok" ng-click="$ctrl.save();">
             <i class="fa fa-check" aria-hidden="true"></i>
         </button>
-    </div>
+    </div>-->
 </div>
 
 

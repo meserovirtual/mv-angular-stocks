@@ -78,6 +78,7 @@ class Stocks extends Main
     pr.precio_tipo_id,
     pr.precio,
     su.sucursal_id,
+    su.nombre nombreSucursal,
     st.stock_id,
     st.cant_actual,
     st.costo_uni,
@@ -191,6 +192,7 @@ WHERE
                     $final[$row['producto_id']]['stocks'][] = array(
                         'stock_id' => $row['stock_id'],
                         'sucursal_id' => $row['sucursal_id'],
+                        'nombreSucursal' => $row['nombreSucursal'],
                         'cant_actual' => $row['cant_actual'],
                         'costo_uni' => $row['costo_uni']
                     );
@@ -202,6 +204,7 @@ WHERE
                     array_push($final[$row['producto_id']]['stocks'], array(
                         'stock_id' => $row['stock_id'],
                         'sucursal_id' => $row['sucursal_id'],
+                        'nombreSucursal' => $row['nombreSucursal'],
                         'cant_actual' => $row['cant_actual'],
                         'costo_uni' => $row['costo_uni']
                     ));
