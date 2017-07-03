@@ -16,8 +16,10 @@
     }
 
 
-    MvConsultaStockController.$inject = ['StockService', 'StockVars', 'MvUtils', 'SucursalesService', 'MvUtilsGlobals'];
-    function MvConsultaStockController(StockService, StockVars, MvUtils, SucursalesService, MvUtilsGlobals) {
+    MvConsultaStockController.$inject = ['StockService', 'StockVars', 'MvUtils', 'SucursalesService', 'MvUtilsGlobals',
+                                    'ReportesService'];
+    function MvConsultaStockController(StockService, StockVars, MvUtils, SucursalesService, MvUtilsGlobals,
+                                       ReportesService) {
 
         var vm = this;
 
@@ -28,12 +30,14 @@
         vm.sinStock = false;
         vm.paginas = 1;
         vm.indice = -1;
+        vm.excelToDonwload = '';
         StockVars.sucursal_id = -1;
 
 
         //FUNCIONES
         vm.loadSucursales = loadSucursales;
         vm.loadStockPorSucursal = loadStockPorSucursal;
+        vm.tableToExcel = tableToExcel;
 
 
         loadSucursales();
@@ -70,7 +74,10 @@
             });
         }
 
-
+        function tableToExcel() {
+            vm.excelToDonwload = ReportesService.tableToExcel("tablaStock","Test");
+            console.log(vm.excelToDonwload);
+        }
 
 
         // Implementación de la paginación

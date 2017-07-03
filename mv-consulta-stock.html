@@ -7,7 +7,7 @@
                     <label for="origen">Sucursal</label>
                     <select name="origen" id="origen" ng-model="$ctrl.sucursal"
                             ng-options="sucursal as sucursal.nombre for sucursal in $ctrl.sucursales"
-                            ng-change="$ctrl.loadStockPorSucursal();" >
+                            ng-change="$ctrl.loadStockPorSucursal();$ctrl.excelToDonwload='';" >
                     </select>
                 </div>
 
@@ -19,10 +19,16 @@
                     </div>
                 </div>
             </div>
+            <div class="form-flex-between" style="margin-top: 20px;">
+                <button class="btn-excel" ng-click="$ctrl.tableToExcel();">Generar Excel</button>
+
+                <a href="{{$ctrl.excelToDonwload}}" class="btn-excel btn-excel-a" title="Excel"
+                   ng-if="$ctrl.excelToDonwload.length > 0">Bajar Excel</a>
+            </div>
         </div>
     </form>
 
-    <table>
+    <table id="tablaStock">
         <thead>
         <tr>
             <th>Producto</th>

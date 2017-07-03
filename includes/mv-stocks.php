@@ -98,8 +98,8 @@ FROM
     productos_kits ki ON ki.parent_id = p.producto_id
         LEFT JOIN
     usuarios u ON u.usuario_id = st.proveedor_id
-WHERE
-(((p.producto_tipo_id = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo_id = 3) OR (p.producto_tipo_id = 2);';
+WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucursal_id'] : ' st.sucursal_id != -1') . ';';
+//(((p.producto_tipo_id = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo_id = 3) OR (p.producto_tipo_id = 2);';
 
 
         $results = $db->rawQuery($SQL);
