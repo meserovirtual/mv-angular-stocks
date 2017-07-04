@@ -30,7 +30,6 @@
         vm.sinStock = false;
         vm.paginas = 1;
         vm.indice = -1;
-        vm.excelToDonwload = '';
         StockVars.sucursal_id = -1;
 
 
@@ -75,12 +74,11 @@
         }
 
         function tableToExcel() {
-            vm.excelToDonwload = ReportesService.tableToExcel("tablaStock","Test");
-            console.log(vm.excelToDonwload);
+            window.location.href = ReportesService.tableToExcel("tablaStock","Consulta de Stock");
         }
 
 
-        // Implementación de la paginación
+        // Implementaciï¿½n de la paginaciï¿½n
         vm.start = 0;
         vm.limit = StockVars.paginacion;
         vm.pagina = StockVars.pagina;
