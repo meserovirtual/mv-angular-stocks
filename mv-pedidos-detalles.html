@@ -1,119 +1,134 @@
-<h2>Datos del Pedido</h2>
+<div ng-if="$ctrl.showDetalle">
+  <h2>Datos del Pedido</h2>
 
-<div class="mv-col">
-    <div class="input">
-        <label >Pedido el día</label>
-        <input type="text" class="readonly input-small-2" value="{{$ctrl.pedido.fecha_pedido}}" readonly/>
-    </div>
-    <div class="input">
-        <label >Entregado el día</label>
-        <input type="text" ng-if="$ctrl.pedido.fecha_entrega !== '0000-00-00 00:00:00'"
-               class="readonly input-small-2" value="{{$ctrl.pedido.fecha_entrega}}" readonly/>
-    </div>
-    <div class="input">
-        <label >Total del pedido</label>
-        <input type="text" class="readonly input-small-2" value="{{$ctrl.pedido.total | currency}}" readonly/>
-    </div>
+  <div class="mv-col">
+      <div class="input">
+          <label >Pedido el día</label>
+          <input type="text" class="readonly input-small-2" value="{{$ctrl.pedido.fecha_pedido}}" readonly/>
+      </div>
+      <div class="input">
+          <label >Entregado el día</label>
+          <input type="text" ng-if="$ctrl.pedido.fecha_entrega !== '0000-00-00 00:00:00'"
+                 class="readonly input-small-2" value="{{$ctrl.pedido.fecha_entrega}}" readonly/>
+      </div>
+      <div class="input">
+          <label >Total del pedido</label>
+          <input type="text" class="readonly input-small-2" value="{{$ctrl.pedido.total | currency}}" readonly/>
+      </div>
+  </div>
+
+  <div class="mv-col" style="margin-bottom: 30px">
+      <div class="input">
+          <label>Proveedor</label>
+          <select name="proveedor" id="proveedor" ng-model="$ctrl.pedido.proveedor_id"
+                  ng-options="proveedor.usuario_id as proveedor.nombre for proveedor in $ctrl.proveedores"
+                  ng-click="$ctrl.cleanProductos();">
+          </select>
+      </div>
+      <div class="input">
+          <label>Sucursal</label>
+          <select name="sucursal" id="sucursal" ng-model="$ctrl.pedido.sucursal_id"
+                  ng-options="sucursal.sucursal_id as sucursal.nombre for sucursal in $ctrl.sucursales">
+          </select>
+      </div>
+  </div>
+
+  <h2>Detalle del Pedido</h2>
+  <div class="mv-col">
+      <div class="input">
+          <label>Producto</label>
+          <mv-autocomplete fields-to-show="'nombre'"
+                           selected-to="$ctrl.producto"
+                           search-fields="'nombre,sku'"
+                           search-function="$ctrl.searchProducto(callback)"
+                           clear='$ctrl.clear'
+                           id="searchProducto"></mv-autocomplete>
+      </div>
+      <div class="input">
+          <label>Cantidad</label>
+          <input type="number" step="0.01" ng-model="$ctrl.cantidad" class="input-small"
+                 mv-validator is-required="Debe ingresar una cantidad" id="cantidad">
+      </div>
+  </div>
+  <div class="mv-col">
+      <div class="input">
+          <label>Precio</label>
+          <input type="number" step="0.01" ng-model="$ctrl.precio_unidad_prod" class="input-small"
+                 mv-validator is-required="Debe ingresar un precio" id="precio_unidad_prod">
+      </div>
+  </div>
+  <div class="botonera">
+      <button class="btn-agregar" mv-validator ng-if="$ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
+              || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00'"
+              ng-click="$ctrl.agregarDetalle()">Agregar</button>
+  </div>
+
+  <div class="margin-top">
+      <table style="max-width: 1000px">
+          <thead>
+          <tr>
+              <th style="font-size:12px;">Producto</th>
+              <th style="font-size:12px;">Precio Total</th>
+              <th style="font-size:12px;">Precio Unit.</th>
+              <th style="font-size:12px;">Cantidad</th>
+              <th style="font-size:12px;">Faltante</th>
+              <th style="font-size:12px;">Acción</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="row in $ctrl.pedido.pedidos_detalles" style="font-size: 13px;">
+              <td class="" style="padding: 5px 5px;">{{row.nombre}}</td>
+              <td class="" style="padding: 5px 5px;">{{row.precio_total | currency}}</td>
+              <td class="" style="padding: 5px 5px;">
+                  $<input type="text"
+                          ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == '')"
+                          step="0.01"
+                          ng-model="row.precio_unidad"
+                          ng-blur="$ctrl.recalcularTotal(row);"
+                          ng-change="(row.precio_unidad<0)?row.precio_unidad=0:row.precio_unidad;
+                     $ctrl.recalcularTotalDetalle(row);"
+                          style="width:44px;text-align: right;height: 20px; font-size: 11px"/>
+              </td>
+              <td class="" style="padding: 5px 5px;">
+                  <input type="number"
+                         ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == '')"
+                         ng-model="row.cantidad"
+                         ng-blur="$ctrl.recalcularTotal(row);"
+                         ng-change="(row.cantidad<0)?row.cantidad=0:row.cantidad;
+                     $ctrl.recalcularTotalDetalle(row);"
+                         style="width:44px;text-align: right;padding: 0;height: 20px; font-size: 11px"/>
+              </td>
+              <td class="" style="padding: 5px 5px;">
+                <input type="checkbox" class="checkbox" id="check-soloActivos" ng-click="$ctrl.agregarFaltante(row);"
+                    ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
+                     || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00')">
+              </td>
+              <td class="" style="padding: 5px 5px;">
+                  <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle($index)" title="Quitar"
+                          ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
+                          || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00')">
+                      <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
+              </td>
+          </tr>
+          </tbody>
+      </table>
+  </div>
+
+  <div class="botonera" ng-if="$ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
+      || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00'">
+      <button class="boton-ok" ng-click="$ctrl.save();" title="Guardar">
+          <i class="fa fa-check" aria-hidden="true"></i>
+      </button>
+      <button class="boton-calendario" ng-click="$ctrl.moverFaltantes();" title="Marcar como Faltante">
+          <i class="fa fa-truck" aria-hidden="true"></i>
+      </button>
+      <button class="boton-cancelar" ng-click="$ctrl.closeForm();" title="Cancelar">
+          <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+  </div>
 </div>
 
-<div class="mv-col" style="margin-bottom: 30px">
-    <div class="input">
-        <label>Proveedor</label>
-        <select name="proveedor" id="proveedor" ng-model="$ctrl.pedido.proveedor_id"
-                ng-options="proveedor.usuario_id as proveedor.nombre for proveedor in $ctrl.proveedores"
-                ng-click="$ctrl.cleanProductos();">
-        </select>
-    </div>
-    <div class="input">
-        <label>Sucursal</label>
-        <select name="sucursal" id="sucursal" ng-model="$ctrl.pedido.sucursal_id"
-                ng-options="sucursal.sucursal_id as sucursal.nombre for sucursal in $ctrl.sucursales">
-        </select>
-    </div>
-</div>
-
-<h2>Detalle del Pedido</h2>
-<div class="mv-col">
-    <div class="input">
-        <label>Producto</label>
-        <mv-autocomplete fields-to-show="'nombre'"
-                         selected-to="$ctrl.producto"
-                         search-fields="'nombre,sku'"
-                         search-function="$ctrl.searchProducto(callback)"
-                         clear='$ctrl.clear'
-                         id="searchProducto"></mv-autocomplete>
-    </div>
-    <div class="input">
-        <label>Cantidad</label>
-        <input type="number" step="0.01" ng-model="$ctrl.cantidad" class="input-small"
-               mv-validator is-required="Debe ingresar una cantidad" id="cantidad">
-    </div>
-</div>
-<div class="mv-col">
-    <div class="input">
-        <label>Precio</label>
-        <input type="number" step="0.01" ng-model="$ctrl.precio_unidad_prod" class="input-small"
-               mv-validator is-required="Debe ingresar un precio" id="precio_unidad_prod">
-    </div>
-</div>
-<div class="botonera">
-    <button class="btn-agregar" mv-validator ng-if="$ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
-            || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00'"
-            ng-click="$ctrl.agregarDetalle()">Agregar</button>
-</div>
-
-<div class="margin-top">
-    <table style="max-width: 1000px">
-        <thead>
-        <tr>
-            <th style="font-size:13px;">Producto</th>
-            <th style="font-size:13px;">Precio Total</th>
-            <th style="font-size:13px;">Precio Unit.</th>
-            <th style="font-size:13px;">Cantidad</th>
-            <th style="font-size:13px;">Acción</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="row in $ctrl.pedido.pedidos_detalles" style="font-size: 13px;">
-            <td class="">{{row.nombre}}</td>
-            <td class="">{{row.precio_total | currency}}</td>
-            <td class="">
-                $<input type="text"
-                        ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == '')"
-                        step="0.01"
-                        ng-model="row.precio_unidad"
-                        ng-blur="$ctrl.recalcularTotal(row);"
-                        ng-change="(row.precio_unidad<0)?row.precio_unidad=0:row.precio_unidad;
-                   $ctrl.recalcularTotalDetalle(row);"
-                        style="width:50px;text-align: right;height: 20px; font-size: 13px"/>
-            </td>
-            <td class="">
-                <input type="number"
-                       ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == '')"
-                       ng-model="row.cantidad"
-                       ng-blur="$ctrl.recalcularTotal(row);"
-                       ng-change="(row.cantidad<0)?row.cantidad=0:row.cantidad;
-                   $ctrl.recalcularTotalDetalle(row);"
-                       style="width:50px;text-align: right;padding: 0;height: 20px; font-size: 13px"/>
-            </td>
-            <td class="">
-                <button type="button" class="boton-eliminar btn-small" ng-click="$ctrl.removeDetalle($index)" title="Quitar"
-                        ng-disabled="!($ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
-                        || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00')">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="botonera" ng-if="$ctrl.pedido.fecha_entrega == null || $ctrl.pedido.fecha_entrega == ''
-    || $ctrl.pedido.fecha_entrega == '0000-00-00 00:00:00'">
-    <button class="boton-ok" ng-click="$ctrl.save();" title="Guardar">
-        <i class="fa fa-check" aria-hidden="true"></i>
-    </button>
-    <button class="boton-cancelar" ng-click="$ctrl.closeForm();" title="Cancelar">
-        <i class="fa fa-times" aria-hidden="true"></i>
-    </button>
+<div ng-if="!$ctrl.showDetalle">
+  <mv-pedidos-faltantes faltantes="$ctrl.faltantes"></mv-pedidos-faltantes>
 </div>

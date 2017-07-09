@@ -1,0 +1,37 @@
+<h2>Mover Faltantes</h2>
+
+<div class="mv-col">
+
+  <table style="margin-top: 15px">
+    <thead>
+    <tr>
+      <th>Fecha Pedido</th>
+      <th>Proveedor</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in $ctrl.pedidosActivos"
+        ng-click="$ctrl.pedido=row; $ctrl.pedidoFaltante = row.detalles; $ctrl.pedido_faltante_id = row.pedido_id ">
+      <td class="">{{row.fecha_pedido}}</td>
+      <td class="">{{row.proveedor_nombre}}</td>
+      <td class="">{{row.total | currency}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="botonera">
+  <button class="boton-ok" ng-click="$ctrl.pedido_faltante_id = -1;$ctrl.confirmarPedidoFaltante();"
+          title="Crear Nuevo Pedido">
+    <i class="fa fa-check" aria-hidden="true"></i>
+  </button>
+  <button class="boton-calendario" ng-click="$ctrl.confirmarPedidoFaltante();"
+          ng-disabled="$ctrl.pedido_faltante_id === -1;" title="Agregar a Pedido Seleccionado">
+    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+  </button>
+  <button class="boton-cancelar" ng-click="$ctrl.closeForm();" title="Cancelar">
+    <i class="fa fa-times" aria-hidden="true"></i>
+  </button>
+</div>

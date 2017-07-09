@@ -95,6 +95,7 @@
     function PedidoAdminService($rootScope) {
 
         this.detailsOpen = false;
+        this.showDetalle = false;
 
         this.broadcast = function () {
             $rootScope.$broadcast("refreshDetailForm")

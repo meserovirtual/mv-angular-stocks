@@ -280,12 +280,20 @@
          * @param value
          * @param callback
          */
+        /*
         function getByParams(params, values, exact_match, callback) {
             get(function (data) {
                 MvUtils.getByParams(params, values, exact_match, data, callback);
             })
         }
-
+        */
+        function getByParams(params, values, exact_match) {
+            return get().then(function (data) {
+                return MvUtils.getByParams(params, values, exact_match, data);
+            }).then(function (data) {
+                return data;
+            });
+        }
 
         /** @name: remove
          * @param pedido_id
@@ -695,6 +703,7 @@
         function get() {
             MvUtilsGlobals.startWaiting();
             var sucursal = (MvUtilsGlobals.sucursal_id_search != undefined && MvUtilsGlobals.sucursal_id_search != 0) ? MvUtilsGlobals.sucursal_id_search : UserService.getFromToken().data.sucursal_id;
+            console.log(sucursal);
             var urlGet = url + '?function=getStocks&sucursal_id=' + sucursal;
             var $httpDefaultCache = $cacheFactory.get('$http');
             var cachedData = [];

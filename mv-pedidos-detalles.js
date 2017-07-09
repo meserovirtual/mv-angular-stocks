@@ -29,6 +29,7 @@
         vm.id = $routeParams.id;
         vm.pedido_faltante_id = -1;
         vm.productos = [];
+        vm.showDetalle = true;
         vm.mostrarMoverFaltantes = false;
         vm.pedidosActivos = [];
         vm.user = {user_id: 1};
@@ -80,7 +81,7 @@
         //vm.confirmar = confirmar;
         vm.agregarFaltante = agregarFaltante;
         vm.moverFaltantes = moverFaltantes;
-        vm.confirmarPedidoFaltante = confirmarPedidoFaltante;
+        //vm.confirmarPedidoFaltante = confirmarPedidoFaltante;
         vm.deletePedido = deletePedido;
         vm.cleanProductos = cleanProductos;
         vm.searchProducto = searchProducto;
@@ -113,6 +114,10 @@
                     vm.pedido.proveedor_id = parseInt(vm.proveedores[0].usuario_id);
                 }
             }
+        });
+
+        PedidoAdminService.listen(function () {
+            vm.showDetalle = PedidoAdminService.showDetalle;
         });
 
         function closeForm() {
@@ -283,113 +288,25 @@
         }
 
         function agregarFaltante(detalle) {
+            console.log(detalle);
+            console.log(vm.faltantes);
             var existe = false;
             for (var i = 0; i < vm.faltantes.length; i++) {
+                console.log(vm.faltantes);
                 if (detalle === vm.faltantes[i]) {
                     existe = true;
-                    vm.faltantes.splice(i, 1);
+                    //vm.faltantes.splice(i, 1);
                 }
             }
-
+            console.log(existe);
             if (!existe) {
                 vm.faltantes.push(detalle);
             }
-            //console.log(vm.faltantes);
+            console.log(vm.faltantes);
         }
 
 
-        function confirmarPedidoFaltante() {
-            var total_pedido_origen = 0.0;
-            var total_pedido_faltantes = 0.0;
 
-            for (var i = 0; i < vm.faltantes.length; i++) {
-                total_pedido_faltantes = parseFloat(total_pedido_faltantes) + parseFloat(vm.faltantes[i].precio_total);
-            }
-
-            total_pedido_origen = parseFloat(vm.pedido.total) - total_pedido_faltantes;
-
-            vm.nuevoPedido = {
-                detalles: [], iva: '', pedido_id: -1,
-                proveedor_nombre: '', sucursal_id: '', total: 0.0, usuario_id: 1, proveedor_id: 0
-            };
-
-            vm.nuevoPedido.pedidos_detalles = vm.faltantes;
-            vm.nuevoPedido.iva = vm.pedido.iva;
-            vm.nuevoPedido.pedido_id = vm.pedido.pedido_id;
-            vm.nuevoPedido.proveedor_nombre = vm.pedido.proveedor_nombre;
-            vm.nuevoPedido.sucursal_id = vm.pedido.sucursal_id;
-            vm.nuevoPedido.total = total_pedido_faltantes;
-            vm.nuevoPedido.usuario_id = vm.user.user_id;
-            vm.nuevoPedido.proveedor_id = vm.pedido.proveedor_id;
-
-            vm.pedido.total = total_pedido_origen;
-
-            var detallesSinFaltantes = vm.pedido.pedidos_detalles.filter(
-                function (elem, index, array) {
-                    var encontrado = false;
-                    for (var x = 0; x < vm.faltantes.length; x++) {
-                        if (elem.pedido_detalle_id == vm.faltantes[x].pedido_detalle_id) {
-                            encontrado = true;
-                        }
-                    }
-
-                    if (!encontrado) {
-                        return elem;
-                    }
-                }
-            );
-
-            vm.pedido.pedidos_detalles = detallesSinFaltantes;
-
-            if (vm.pedido_faltante_id === -1) {
-
-                PedidoService.create(vm.nuevoPedido).then(function (data) {
-                    console.log(data);
-                    PedidoService.update(vm.pedido).then(function (data) {
-                        MvUtils.showMessage('success', 'Pedido creado con éxito');
-                        $location.path('/caja/cobros');
-                        console.log(data);
-                    }).catch(function(error){
-                        console.log(error);
-                    })
-                }).catch(function(error){
-                    console.log(error);
-                })
-            } else {
-
-                PedidoService.getByParams('pedido_id', '' + vm.pedido_faltante_id, 'true', function (data) {
-
-                    for (var i = 0; i < data[0].pedidos_detalles.length; i++) {
-                        vm.faltantes.push(data[0].pedidos_detalles[i]);
-                    }
-
-                    data[0].pedidos_detalles = vm.faltantes;
-                    data[0].total = parseFloat(data[0].total) + total_pedido_faltantes;
-
-                    PedidoService.update(data[0]).then(function (data) {
-                        PedidoService.update(vm.pedido).then(function (data) {
-                            MvUtils.showMessage('success', 'Pedido modificado con éxito');
-                            $location.path('/caja/cobros');
-                            console.log(data);
-                        }).catch(function(error){
-                            console.log(error);
-                        });
-                    }).catch(function(error){
-                        console.log(error);
-                    });
-                });
-
-
-                //PedidoService.savePedidoDetalles(vm.pedido_faltante_id, vm.faltantes, function (data) {
-                //    //console.log(data);
-                //    PedidoService.updatePedido('updatePedido', vm.pedido, function (data) {
-                //        toastr.success('Pedido modificado con éxito');
-                //        $location.path('/listado_pedidos');
-                //        //console.log(data);
-                //    })
-                //})
-            }
-        }
 
         function moverFaltantes() {
 
@@ -398,36 +315,9 @@
                 return;
             }
 
-            var btn = document.getElementById("btn-faltantes");
-            var btnTop = angular.element(btn).prop('offsetTop');
-            var btnLeft = angular.element(btn).prop('offsetLeft');
+            vm.showDetalle = false;
 
-            var porcH = (btnTop + 35) * 100 / $window.innerHeight;
-            var porcW = (btnLeft + 35) * 100 / $window.innerWidth;
-
-            var stylesheet = document.querySelector("link[href='app.css']").sheet;
-            var rules = stylesheet.rules;
-            //var i = rules.length - 1;
-            var keyframes;
-            var keyframe;
-
-            for (var i = 0; i < rules.length; i++) {
-                keyframe = rules[i];
-                if (keyframe.name == 'show-faltantes') {
-                    //keyframe.style.cssText = keyframe.style.cssText.replace("circle(0% at 0% 0%);", "circle(0% at 50% 50%);");
-                    keyframe.cssRules[0].style.cssText = keyframe.cssRules[0].style.cssText.replace("circle(0% at 0% 0%);", "circle(0% at " + porcW + "% " + porcH + "%);");
-                    keyframe.cssRules[2].style.cssText = keyframe.cssRules[2].style.cssText.replace("circle(200% at 0% 0%);", "circle(200% at " + porcW + "% " + porcH + "%);");
-
-                }
-                if (keyframe.name == 'ocultar-faltantes') {
-                    //keyframe.style.cssText = keyframe.style.cssText.replace("circle(0% at 0% 0%);", "circle(0% at 50% 50%);");
-                    keyframe.cssRules[0].style.cssText = keyframe.cssRules[0].style.cssText.replace("circle(200% at 0% 0%);", "circle(200% at " + porcW + "% " + porcH + "%);");
-                    keyframe.cssRules[1].style.cssText = keyframe.cssRules[1].style.cssText.replace("circle(0% at 0% 0%);", "circle(0% at " + porcW + "% " + porcH + "%);");
-
-                }
-            }
-
-            vm.mostrarMoverFaltantes = true;
+            /*
             PedidoVars.all = false;
             PedidoService.get().then(function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -435,12 +325,13 @@
                         vm.pedidosActivos.push(data[i]);
                     }
                 }
+                console.log(vm.pedidosActivos);
             }).catch(function(error){
                 console.log(error);
             });
-
+            */
         }
-        //console.log(vm.busqueda.prop('offsetTop'));
+
     }
 
 

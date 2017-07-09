@@ -15,6 +15,7 @@
         <table style="margin-top: 15px">
             <thead>
             <tr>
+                <th>Pedido ID</th>
                 <th>Proveedor</th>
                 <th>Fecha Pedido</th>
                 <th>Total</th>
@@ -23,6 +24,7 @@
             <tbody>
             <tr ng-repeat="row in $ctrl.pedidos | filter:$ctrl.filtro | limitTo:$ctrl.limit:$ctrl.start"
                 ng-click="row.pedido_id=''+row.pedido_id;$ctrl.pedido=row;$ctrl.detailsOpen=true;">
+                <td class="">{{row.pedido_id}}</td>
                 <td class="">{{row.proveedor_nombre}}</td>
                 <td class="">{{row.fecha_pedido}}</td>
                 <td class="">{{row.total | currency}}</td>
@@ -30,7 +32,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     <div class="table-td">
                     <span>
                         <button class="paginacion-primera" ng-click="$ctrl.first();"></button>
