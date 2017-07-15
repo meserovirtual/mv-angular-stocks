@@ -471,22 +471,20 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
      * @description Elimina un pedido
      * @param $pedido_id
      */
-    function removePedido($pedido_id)
+    function removePedido($params)
     {
-        $db = new MysqliDb();
+        $db = self::$instance->db;
 
-        $db->where("pedido_id", $pedido_id);
+        $db->where("pedido_id", $params['pedido_id']);
         $results = $db->delete('pedidos');
 
-        $db->where("pedido_id", $pedido_id);
+        $db->where("pedido_id", $params['pedido_id']);
         $db->delete('pedidos_detalles');
 
         if ($results) {
-
             echo json_encode(1);
         } else {
             echo json_encode(-1);
-
         }
     }
 
@@ -495,19 +493,17 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
      * @description Elimina una detalle de pedido
      * @param $pedidodetalle_id
      */
-    function removePedidoDetalle($pedido_detalle_id)
+    function removePedidoDetalle($params)
     {
-        $db = new MysqliDb();
+        $db = self::$instance->db;
 
-        $db->where("pedido_detalle_id", $pedido_detalle_id);
+        $db->where("pedido_detalle_id", $params['pedido_detalle_id']);
         $results = $db->delete('pedidos_detalles');
 
         if ($results) {
-
             echo json_encode(1);
         } else {
             echo json_encode(-1);
-
         }
     }
 
@@ -515,19 +511,17 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
      * @description Elimina un stock
      * @param $stock_id
      */
-    function removeStock($stock_id)
+    function removeStock($params)
     {
-        $db = new MysqliDb();
+        $db = self::$instance->db;
 
-        $db->where("stock_id", $stock_id);
+        $db->where("stock_id", $params['stock_id']);
         $results = $db->delete('stock');
 
         if ($results) {
-
             echo json_encode(1);
         } else {
             echo json_encode(-1);
-
         }
     }
 

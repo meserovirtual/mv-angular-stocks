@@ -23,16 +23,23 @@
         var vm = this;
 
         vm.pedidos = [];
-        vm.detalle = detalle;
+        //vm.detalle = detalle;
         vm.soloActivos = true;
         vm.loadPedidos = loadPedidos;
         vm.pedido = {};
         vm.paginas = 1;
         vm.indice = -1;
         vm.detailsOpen = false;
+        vm.panel = 1;
+
+        vm.openDetails = openDetails;
 
         loadPedidos();
 
+
+        function openDetails() {
+
+        }
 
         PedidoAdminService.listen(function () {
             vm.detailsOpen = PedidoAdminService.detailsOpen;
@@ -40,11 +47,11 @@
                 loadPedidos();
         });
 
-
+/*
         function detalle(id) {
             $location.path('/pedidos/' + id);
         }
-
+*/
 
         function loadPedidos() {
             PedidoVars.all = (vm.soloActivos) ? false : true;
@@ -57,7 +64,7 @@
             });
         }
 
-        // Implementación de la paginación
+        // Implementaciï¿½n de la paginaciï¿½n
         vm.start = 0;
         vm.limit = PedidoVars.paginacion;
         vm.pagina = PedidoVars.pagina;
@@ -95,7 +102,7 @@
     function PedidoAdminService($rootScope) {
 
         this.detailsOpen = false;
-        this.showDetalle = false;
+        //this.panel = 1;
 
         this.broadcast = function () {
             $rootScope.$broadcast("refreshDetailForm")
