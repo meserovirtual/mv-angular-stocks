@@ -47,7 +47,7 @@ class Stocks extends Main
 	              p.nombre
               FROM productos p
               INNER JOIN stock s ON p.producto_id = s.producto_id
-              WHERE p.status = 1 and s.sucursal_id = ' . $params["sucursal_id"] . '
+              WHERE p.status = 1 and s.sucursal_id = ' . $params["sucursal_id"] . ' and s.empresa_id = ' . getEmpresa() . ' 
               GROUP BY p.producto_id, p.pto_repo
               HAVING p.pto_repo >= SUM(s.cant_actual)
               ORDER BY p.nombre, SUM(s.cant_actual);';
@@ -98,7 +98,7 @@ FROM
     productos_kits ki ON ki.parent_id = p.producto_id
         LEFT JOIN
     usuarios u ON u.usuario_id = st.proveedor_id
-WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucursal_id'] : ' st.sucursal_id != -1') . ';';
+WHERE st.empresa_id = ' . getEmpresa() .' and ' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucursal_id'] : ' st.sucursal_id != -1') . ';';
 //(((p.producto_tipo_id = 0  AND st.cant_actual > 0) ) ' . (($params['sucursal_id'] != -1) ? ' and st.sucursal_id=' . $params['sucursal_id'] : '') . ') or (p.producto_tipo_id = 3) OR (p.producto_tipo_id = 2);';
 
 
@@ -221,6 +221,7 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
 
 
 /////// INSERT ////////
+
     /**Crea un pedido con fecha de entrega "vacia" = 0000-00-00 00:00:00
      * @param $pedido
      */
@@ -235,7 +236,8 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
             'usuario_id' => $item_decoded->usuario_id,
             'total' => $item_decoded->total,
             'iva' => $item_decoded->iva,
-            'sucursal_id' => $item_decoded->sucursal_id
+            'sucursal_id' => $item_decoded->sucursal_id,
+            'empresa_id' => getEmpresa()
         );
 
         $result = $db->insert('pedidos', $data);
@@ -291,7 +293,8 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
                 'sucursal_id' => $item_decoded->sucursal_id,
                 'cant_actual' => $item_decoded->cant_actual,
                 'cant_inicial' => $item_decoded->cant_inicial,
-                'costo_uni' => $item_decoded->precio_unidad
+                'costo_uni' => $item_decoded->precio_unidad,
+                'empresa_id' => getEmpresa()
             );
 
             $result = $db->insert('stock', $data);
@@ -527,6 +530,7 @@ WHERE' . (($params['sucursal_id'] != -1) ? ' st.sucursal_id = ' . $params['sucur
 
 
 /////// GET ////////
+
     /**
      * @descr Obtiene los pedidos
      * @param $all si debe traer solo los activo o todos, por defecto, solo los activos
@@ -566,9 +570,8 @@ FROM
     pedidos_detalles pd ON pd.pedido_id = p.pedido_id
         INNER JOIN
     productos o ON o.producto_id = pd.producto_id ' .
-            (($params['all'] == 'false') ? 'WHERE p.fecha_entrega = "0000-00-00 00:00:00"' : '')
+            (($params['all'] == 'false') ? 'WHERE p.fecha_entrega = "0000-00-00 00:00:00" and p.empresa_id = ' . getEmpresa()  : ' WHERE p.empresa_id = ' . getEmpresa() )
             . '
-
             GROUP BY p.pedido_id,
     p.proveedor_id,
     p.usuario_id,
